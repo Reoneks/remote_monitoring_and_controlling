@@ -6,53 +6,57 @@ import (
 	"errors"
 	"fmt"
 	"project/config"
-	"project/settings"
-	"strings"
 	"time"
 
+	"project/pkg/bcrypt"
 	"project/pkg/cache"
 
+	"github.com/dchest/uniuri"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/sethvargo/go-password/password"
 )
 
 type JWT struct {
-	access  []byte
-	refresh []byte
+	secret string
 
 	cache *cache.Cache[string]
 }
 
-func (j *JWT) GenerateTokens(ctx context.Context, userID string) (accessToken string, refreshToken string, err error) {
+func (j *JWT) GenerateToken(ctx context.Context, userID string) (accessToken string, err error) {
+	now := time.Now()
+	token := jwt.New(jwt.SigningMethodHS512)
+
 	claims := make(jwt.MapClaims)
 	claims["user"] = userID
+	claims["iat"] = now.Unix()
+	token.Claims = claims
 
-	accessToken, err = j.generateToken(ctx, claims, j.access, settings.AccessTokenExpiration)
+	salt, err := password.Generate(10, 3, 3, false, true)
 	if err != nil {
-		err = fmt.Errorf("Failed to generate access token: %w", err)
-		return
+		salt = uniuri.NewLen(10)
 	}
 
-	refreshToken, err = j.generateToken(ctx, claims, j.refresh, settings.RefreshTokenExpiration)
+	accessToken, err = token.SignedString([]byte(j.secret + salt))
 	if err != nil {
-		err = fmt.Errorf("Failed to generate refresh token: %w", err)
-		return
+		return "", fmt.Errorf("Error while generating token string: %w", err)
 	}
 
-	j.cache.Set(ctx, userID, refreshToken, settings.RefreshTokenExpiration)
+	j.cache.Set(ctx, accessToken, salt, -1)
 	return
 }
 
 func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey bool) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodECDSA); !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Invalid token signing method")
 		}
 
-		if accessKey {
-			return j.access, nil
+		salt, found := j.cache.Get(ctx, tokenString)
+		if !found {
+			return nil, errors.New("Salt not found")
 		}
 
-		return j.refresh, nil
+		return []byte(j.secret + salt), nil
 	})
 	if err != nil {
 		return "", fmt.Errorf("Failed to parse token: %w", err)
@@ -63,13 +67,6 @@ func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey b
 		return "", errors.New("Failed to get claims")
 	}
 
-	exp, err := claims.GetExpirationTime()
-	if err != nil {
-		return "", fmt.Errorf("Failed to get token expiration time: %w", err)
-	} else if exp.Before(time.Now()) {
-		return "", ErrExpired
-	}
-
 	userID, ok := claims["user"].(string)
 	if !ok || userID == "" {
 		return "", ErrUserGet
@@ -78,57 +75,20 @@ func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey b
 	return userID, nil
 }
 
-func (j *JWT) RefreshToken(ctx context.Context, tokenString string) (string, string, error) {
-	userID, err := j.ValidateToken(ctx, tokenString, false)
+func (j *JWT) ResetSalt(ctx context.Context, token string) {
+	salt, err := password.Generate(10, 3, 3, false, true)
 	if err != nil {
-		if errors.Is(err, ErrExpired) || errors.Is(err, ErrUserGet) {
-			return "", "", err
-		}
-
-		return "", "", fmt.Errorf("Failed to validate refresh token: %w", err)
+		salt = uniuri.NewLen(10)
 	}
 
-	refreshToken, found := j.cache.Get(ctx, userID)
-	if !found {
-		return "", "", errors.New("Failed to get refresh token from cache")
-	}
-
-	if !strings.EqualFold(tokenString, refreshToken) {
-		return "", "", ErrInvalidRefreshToken
-	}
-
-	return j.GenerateTokens(ctx, userID)
+	j.cache.Set(ctx, token, salt, -1)
 }
 
-func (j *JWT) generateToken(ctx context.Context, claims jwt.MapClaims, secret []byte, expireDuration time.Duration) (string, error) {
-	now := time.Now()
-	token := jwt.New(jwt.SigningMethodEdDSA)
-
-	claims["iat"] = now.Unix()
-	claims["exp"] = now.Add(10 * time.Minute).Unix()
-
-	tokenString, err := token.SignedString(secret)
-	if err != nil {
-		return "", fmt.Errorf("Error while generating token string: %w", err)
-	}
-
-	return tokenString, nil
-}
-
-func NewJWT(cfg *config.Config, bcrypt Bcrypt) (*JWT, error) {
+func NewJWT(cfg *config.Config, bcrypt *bcrypt.Bcrypt) (*JWT, error) {
 	accessHash, err := bcrypt.Encode(context.Background(), base64.StdEncoding.EncodeToString([]byte(cfg.JWTAccessSecret)))
 	if err != nil {
 		return nil, fmt.Errorf("Failed to encode jwt access secret")
 	}
 
-	refreshHash, err := bcrypt.Encode(context.Background(), base64.StdEncoding.EncodeToString([]byte(cfg.JWTRefreshSecret)))
-	if err != nil {
-		return nil, fmt.Errorf("Failed to encode jwt refresh secret")
-	}
-
-	return &JWT{
-		access:  []byte(accessHash),
-		refresh: []byte(refreshHash),
-		cache:   cache.NewCache[string](),
-	}, nil
+	return &JWT{secret: accessHash, cache: cache.NewCache[string]()}, nil
 }

@@ -13,7 +13,7 @@ import (
 
 type Telegram struct {
 	bot      *tele.Bot
-	postgres Postgres
+	db       DB
 	settings tele.Settings
 }
 
@@ -41,7 +41,7 @@ func (t *Telegram) Start(ctx context.Context) (err error) {
 
 	t.bot.SetCommands([]tele.Command{
 		{Text: "/start", Description: "Start this bot"},
-		{Text: "/bind", Description: "Bind chat with bot to database users. Example of usage: '/bind <userID1> <userID2> ...'"},
+		{Text: "/bind", Description: "Bind chat with bot to database users. Example of usage: '/bind <phone>'"},
 	})
 	t.prepareHandlers(context.Background())
 	go t.bot.Start()
@@ -50,22 +50,22 @@ func (t *Telegram) Start(ctx context.Context) (err error) {
 
 func (t *Telegram) prepareHandlers(ctx context.Context) {
 	t.bot.Handle("/start", func(c tele.Context) error {
-		return c.Send("Plese run the 'bind' command to sync bot and database. Example of command usage: '/bind <userID1> <userID2> ...'")
+		return c.Send("Plese run the 'bind' command to sync bot and database. Example of command usage: '/bind <phone>'")
 	})
 
 	t.bot.Handle("/bind", func(c tele.Context) error {
-		ids := c.Args()
+		phones := c.Args()
 
 		user := c.Sender()
 		if user == nil {
 			return c.Send("Sender not found. Aborting...")
 		}
 
-		if len(ids) <= 0 {
-			return c.Send("No IDs provided. Aborting...")
+		if len(phones) <= 0 {
+			return c.Send("No phones provided. Aborting...")
 		}
 
-		err := t.postgres.BindTelegramUser(ctx, ids[0], user.ID)
+		err := t.db.BindTelegramUser(ctx, phones[0], user.ID)
 		if err != nil {
 			log.Error().Str("function", "prepareHandlers (/bind)").Err(err).Msg("Failed to bind telegram to users")
 			return c.Send("Failed to bind telegram to users")
@@ -80,12 +80,12 @@ func (t *Telegram) Stop(ctx context.Context) error {
 	return nil
 }
 
-func NewTelegram(cfg *config.Config, postgres Postgres) *Telegram {
+func NewTelegram(cfg *config.Config, db DB) *Telegram {
 	telegram := new(Telegram)
 	telegram.settings = tele.Settings{
 		Token:  cfg.Token,
 		Poller: &tele.LongPoller{Timeout: settings.PollerTimeout},
 	}
-	telegram.postgres = postgres
+	telegram.db = db
 	return telegram
 }

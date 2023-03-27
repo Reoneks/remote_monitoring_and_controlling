@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"net/http"
 	"project/pkg/jwt"
 
@@ -9,11 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-type Auth interface {
-	ValidateToken(ctx context.Context, tokenString string, accessKey bool) (string, error)
-}
-
-func AuthMiddleware(auth Auth) echo.MiddlewareFunc {
+func AuthMiddleware(auth *jwt.JWT) echo.MiddlewareFunc {
 	return middleware.JWTWithConfig(middleware.JWTConfig{
 		ErrorHandlerWithContext: func(err error, ctx echo.Context) error {
 			errorText := ""
@@ -35,6 +30,8 @@ func AuthMiddleware(auth Auth) echo.MiddlewareFunc {
 				return nil, err
 			}
 
+			ctx.Set("token", accessToken)
+			ctx.Set("userID", userID)
 			return userID, nil
 		},
 	})

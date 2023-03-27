@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"image/png"
 	"project/settings"
-	"time"
 
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
@@ -37,13 +36,8 @@ func (t *OTP) GenerateKey(ctx context.Context, userID string) ([]byte, string, e
 	return buf.Bytes(), key.Secret(), nil
 }
 
-func (t *OTP) ValidateKey(ctx context.Context, key, secret string) (bool, error) {
-	return totp.ValidateCustom(key, secret, time.Now().UTC(), totp.ValidateOpts{
-		Period:    settings.OTPExpiration,
-		Skew:      1,
-		Digits:    otp.DigitsSix,
-		Algorithm: otp.AlgorithmSHA512,
-	})
+func (t *OTP) ValidateKey(ctx context.Context, key, secret string) bool {
+	return totp.Validate(key, secret)
 }
 
 func NewOTP() *OTP {

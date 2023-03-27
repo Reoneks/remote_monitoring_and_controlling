@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"project/config"
+	"project/structs"
 
 	"github.com/golang-migrate/migrate/v4"
 	mpostgres "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -21,9 +22,33 @@ type Postgres struct {
 	migrations string
 }
 
-func (p *Postgres) BindTelegramUser(ctx context.Context, userID string, telegramUserID int64) error {
-	//TODO: made this
-	return nil
+func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (structs.User, error) {
+	var result structs.User
+	return result, p.db.Model(&result).Where("phone = ?", phone).First(&result).Error
+}
+
+func (p *Postgres) GetUserByID(ctx context.Context, userID string) (structs.User, error) {
+	var result structs.User
+	return result, p.db.Model(&result).Where("id = ?", userID).First(&result).Error
+}
+
+func (p *Postgres) CreateUser(ctx context.Context, user *structs.User) error {
+	return p.db.Model(user).Create(user).Error
+}
+
+func (p *Postgres) ChangePassword(ctx context.Context, userID, password string) error {
+	return p.db.Model(&structs.User{}).Where("id = ?", userID).Update("password", password).Error
+}
+
+func (p *Postgres) EnableOTP(ctx context.Context, userID, secret string) error {
+	return p.db.Model(&structs.User{}).Where("id = ?", userID).Updates(map[string]any{
+		"otp_enabled": true,
+		"otp_secret":  secret,
+	}).Error
+}
+
+func (p *Postgres) BindTelegramUser(ctx context.Context, userPhone string, telegramUserID int64) error {
+	return p.db.Model(&structs.User{}).Where("phone = ?", userPhone).Update("telegram_user_id", telegramUserID).Error
 }
 
 func (p *Postgres) Start(ctx context.Context) (err error) {

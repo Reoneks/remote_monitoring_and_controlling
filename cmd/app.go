@@ -2,13 +2,14 @@ package cmd
 
 import (
 	"project/config"
+	"project/internal/user"
 	"project/pkg/bcrypt"
 	"project/pkg/jwt"
+	"project/pkg/otp"
 	"project/pkg/postgres"
 	"project/pkg/telegram"
 	"project/server"
 	"project/server/handlers"
-	"project/server/middleware"
 
 	"go.uber.org/fx"
 )
@@ -17,19 +18,14 @@ func Exec() fx.Option {
 	return fx.Options(
 		fx.Provide(
 			config.Get,
-
 			bcrypt.NewBcrypt,
-			fx.Annotate(
-				annotationDupl[postgres.Postgres],
-				fx.As(new(jwt.Bcrypt)),
-				fx.As(new(handlers.Bcrypt)),
-			),
+			otp.NewOTP,
 
 			postgres.NewPostgres,
 			fx.Annotate(
 				annotationDupl[postgres.Postgres],
-				fx.As(new(handlers.Postgres)),
-				fx.As(new(telegram.Postgres)),
+				fx.As(new(telegram.DB)),
+				fx.As(new(user.DB)),
 			),
 
 			telegram.NewTelegram,
@@ -38,11 +34,8 @@ func Exec() fx.Option {
 				fx.As(new(handlers.Telegram)),
 			),
 
-			fx.Annotate(
-				jwt.NewJWT,
-				fx.As(new(middleware.Auth)),
-			),
-
+			user.NewUserService,
+			jwt.NewJWT,
 			handlers.NewHandler,
 			server.NewHTTPServer,
 		),

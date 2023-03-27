@@ -30,6 +30,10 @@ func (c *Cache[T]) Get(ctx context.Context, key string) (T, bool) {
 	}
 }
 
+func (c *Cache[T]) Delete(ctx context.Context, key string) {
+	c.c.Delete(key)
+}
+
 func NewCache[T any]() *Cache[T] {
 	return &Cache[T]{c: cache.New(settings.DefaultCacheExpiration, settings.CacheCleanup)}
 }

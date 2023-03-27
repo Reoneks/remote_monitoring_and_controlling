@@ -2,6 +2,6 @@ package telegram
 
 import "context"
 
-type Postgres interface {
-	BindTelegramUser(ctx context.Context, userID string, telegramUserIDs int64) error
+type DB interface {
+	BindTelegramUser(ctx context.Context, userPhone string, telegramUserIDs int64) error
 }
