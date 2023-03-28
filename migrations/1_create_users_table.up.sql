@@ -7,6 +7,6 @@ CREATE TABLE
     "otp_enabled" boolean,
     "otp_secret" text,
     -----------------------
-    "telegram_user_id" text,
+    "telegram_user_id" int,
     CONSTRAINT users_pkey PRIMARY KEY ("id")
   );
