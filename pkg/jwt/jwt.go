@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"project/config"
+	"project/settings"
 	"time"
 
 	"project/pkg/bcrypt"
@@ -19,7 +20,7 @@ import (
 type JWT struct {
 	secret string
 
-	cache *cache.Cache[string]
+	saltCache *cache.Cache[string]
 }
 
 func (j *JWT) GenerateToken(ctx context.Context, userID string) (accessToken string, err error) {
@@ -41,7 +42,7 @@ func (j *JWT) GenerateToken(ctx context.Context, userID string) (accessToken str
 		return "", fmt.Errorf("Error while generating token string: %w", err)
 	}
 
-	j.cache.Set(ctx, accessToken, salt, -1)
+	j.saltCache.Set(ctx, accessToken, salt, settings.TokenDefaultExpiration)
 	return
 }
 
@@ -51,7 +52,7 @@ func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey b
 			return nil, errors.New("Invalid token signing method")
 		}
 
-		salt, found := j.cache.Get(ctx, tokenString)
+		salt, found := j.saltCache.Get(ctx, tokenString)
 		if !found {
 			return nil, errors.New("Salt not found")
 		}
@@ -76,7 +77,7 @@ func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey b
 }
 
 func (j *JWT) DeleteSalt(ctx context.Context, token string) {
-	j.cache.Delete(ctx, token)
+	j.saltCache.Delete(ctx, token)
 }
 
 func NewJWT(cfg *config.Config, bcrypt *bcrypt.Bcrypt) (*JWT, error) {
@@ -85,5 +86,5 @@ func NewJWT(cfg *config.Config, bcrypt *bcrypt.Bcrypt) (*JWT, error) {
 		return nil, fmt.Errorf("Failed to encode jwt access secret")
 	}
 
-	return &JWT{secret: accessHash, cache: cache.NewCache[string]()}, nil
+	return &JWT{secret: accessHash, saltCache: cache.NewCache[string]()}, nil
 }
