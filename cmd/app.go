@@ -34,8 +34,8 @@ func Exec() fx.Option {
 				fx.As(new(handlers.Telegram)),
 			),
 
-			user.NewUserService,
 			jwt.NewJWT,
+			user.NewUserService,
 			handlers.NewHandler,
 			server.NewHTTPServer,
 		),

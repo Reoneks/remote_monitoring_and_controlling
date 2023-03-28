@@ -15,13 +15,15 @@ type Telegram struct {
 	bot      *tele.Bot
 	db       DB
 	settings tele.Settings
+
+	frontAddr string
 }
 
 func (t *Telegram) SendNotification(ctx context.Context, text string, userID int64) error {
 	_, err := t.bot.Send(&tele.User{ID: userID}, text,
 		&tele.ReplyMarkup{
 			InlineKeyboard: [][]tele.InlineButton{{
-				{Text: "Go to", URL: "https://www.google.com"},
+				{Text: "Go to", URL: t.frontAddr + ""}, //TODO: change url
 			}},
 		},
 	)
@@ -81,11 +83,12 @@ func (t *Telegram) Stop(ctx context.Context) error {
 }
 
 func NewTelegram(cfg *config.Config, db DB) *Telegram {
-	telegram := new(Telegram)
-	telegram.settings = tele.Settings{
-		Token:  cfg.Token,
-		Poller: &tele.LongPoller{Timeout: settings.PollerTimeout},
+	return &Telegram{
+		db: db,
+		settings: tele.Settings{
+			Token:  cfg.Token,
+			Poller: &tele.LongPoller{Timeout: settings.PollerTimeout},
+		},
+		frontAddr: cfg.FrontendAddr,
 	}
-	telegram.db = db
-	return telegram
 }
