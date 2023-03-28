@@ -88,7 +88,7 @@ func (u *UserService) EnableTwoFA(ctx context.Context, userID string) ([]byte, e
 }
 
 func (u *UserService) Logout(ctx context.Context, token string) {
-	u.jwt.ResetSalt(ctx, token)
+	u.jwt.DeleteSalt(ctx, token)
 	return
 }
 

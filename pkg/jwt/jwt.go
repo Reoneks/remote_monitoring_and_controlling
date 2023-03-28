@@ -75,13 +75,8 @@ func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey b
 	return userID, nil
 }
 
-func (j *JWT) ResetSalt(ctx context.Context, token string) {
-	salt, err := password.Generate(10, 3, 3, false, true)
-	if err != nil {
-		salt = uniuri.NewLen(10)
-	}
-
-	j.cache.Set(ctx, token, salt, -1)
+func (j *JWT) DeleteSalt(ctx context.Context, token string) {
+	j.cache.Delete(ctx, token)
 }
 
 func NewJWT(cfg *config.Config, bcrypt *bcrypt.Bcrypt) (*JWT, error) {

@@ -40,9 +40,9 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	s.router.POST("/login", s.handlers.Login)
 	s.router.POST("/2fa", s.handlers.TwoFA)
 	s.router.POST("/register", s.handlers.Register)
-	s.router.POST("/logout", s.handlers.Logout)
 
 	private := s.router.Group("", middleware.AuthMiddleware(s.auth))
+	private.POST("/logout", s.handlers.Logout)
 	private.PATCH("/enable_2fa", s.handlers.EnableTwoFA)
 
 	go func() {
