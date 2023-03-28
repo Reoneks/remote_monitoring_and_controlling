@@ -45,12 +45,12 @@ func (t *Telegram) Start(ctx context.Context) (err error) {
 		{Text: "/start", Description: "Start this bot"},
 		{Text: "/bind", Description: "Bind chat with bot to database users. Example of usage: '/bind <phone>'"},
 	})
-	t.prepareHandlers(context.Background())
+	t.prepareHandlers()
 	go t.bot.Start()
 	return
 }
 
-func (t *Telegram) prepareHandlers(ctx context.Context) {
+func (t *Telegram) prepareHandlers() {
 	t.bot.Handle("/start", func(c tele.Context) error {
 		return c.Send("Plese run the 'bind' command to sync bot and database. Example of command usage: '/bind <phone>'")
 	})
@@ -67,7 +67,7 @@ func (t *Telegram) prepareHandlers(ctx context.Context) {
 			return c.Send("No phones provided. Aborting...")
 		}
 
-		err := t.db.BindTelegramUser(ctx, phones[0], user.ID)
+		err := t.db.BindTelegramUser(context.Background(), phones[0], user.ID)
 		if err != nil {
 			log.Error().Str("function", "prepareHandlers (/bind)").Err(err).Msg("Failed to bind telegram to users")
 			return c.Send("Failed to bind telegram to users")
