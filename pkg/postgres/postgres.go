@@ -47,6 +47,13 @@ func (p *Postgres) EnableOTP(ctx context.Context, userID, secret string) error {
 	}).Error
 }
 
+func (p *Postgres) DisableOTP(ctx context.Context, userID string) error {
+	return p.db.Model(&structs.User{}).Where("id = ?", userID).Updates(map[string]any{
+		"otp_enabled": false,
+		"otp_secret":  "",
+	}).Error
+}
+
 func (p *Postgres) BindTelegramUser(ctx context.Context, userPhone string, telegramUserID int64) error {
 	return p.db.Model(&structs.User{}).Where("phone = ?", userPhone).Update("telegram_user_id", telegramUserID).Error
 }

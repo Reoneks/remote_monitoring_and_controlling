@@ -11,4 +11,5 @@ type DB interface {
 	CreateUser(ctx context.Context, user *structs.User) error
 	ChangePassword(ctx context.Context, userID, password string) error
 	EnableOTP(ctx context.Context, userID, secret string) error
+	DisableOTP(ctx context.Context, userID string) error
 }

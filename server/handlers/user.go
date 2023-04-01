@@ -86,13 +86,41 @@ func (h *Handler) EnableTwoFA(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
 	}
 
-	image, err := h.user.EnableTwoFA(ctx.Request().Context(), userID)
+	token, ok := ctx.Get("token").(string)
+	if !ok {
+		log.Error().Str("function", "EnableTwoFA").Msg("Failed to get token")
+		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
+	}
+
+	image, err := h.user.EnableTwoFA(ctx.Request().Context(), userID, token)
 	if err != nil {
 		log.Error().Str("function", "EnableTwoFA").Err(err).Msg("Failed to login user")
 		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrLogin))
 	}
 
 	return ctx.Blob(http.StatusOK, "image/png", image)
+}
+
+func (h *Handler) DisableTwoFA(ctx echo.Context) error {
+	userID, ok := ctx.Get("userID").(string)
+	if !ok {
+		log.Error().Str("function", "DisableTwoFA").Msg("Failed to get userID")
+		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
+	}
+
+	token, ok := ctx.Get("token").(string)
+	if !ok {
+		log.Error().Str("function", "DisableTwoFA").Msg("Failed to get token")
+		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
+	}
+
+	err := h.user.DisableTwoFA(ctx.Request().Context(), userID, token)
+	if err != nil {
+		log.Error().Str("function", "DisableTwoFA").Err(err).Msg("Failed to login user")
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrLogin))
+	}
+
+	return ctx.NoContent(http.StatusOK)
 }
 
 func (h *Handler) Logout(ctx echo.Context) error {

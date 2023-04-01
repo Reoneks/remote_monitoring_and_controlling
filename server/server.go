@@ -44,6 +44,7 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	private := s.router.Group("", middleware.AuthMiddleware(s.auth))
 	private.POST("/logout", s.handlers.Logout)
 	private.PATCH("/enable_2fa", s.handlers.EnableTwoFA)
+	private.PATCH("/disable_2fa", s.handlers.DisableTwoFA)
 
 	go func() {
 		if err := s.router.Start(s.appAddr); err != nil && err != http.ErrServerClosed {

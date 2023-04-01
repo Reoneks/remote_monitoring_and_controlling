@@ -78,13 +78,29 @@ func (u *UserService) OTPCheck(ctx context.Context, req *structs.TwoFA) (string,
 	return u.jwt.GenerateToken(ctx, user.ID)
 }
 
-func (u *UserService) EnableTwoFA(ctx context.Context, userID string) ([]byte, error) {
+func (u *UserService) EnableTwoFA(ctx context.Context, userID, token string) ([]byte, error) {
 	image, secret, err := u.otp.GenerateKey(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
 
-	return image, u.db.EnableOTP(ctx, userID, secret)
+	err = u.db.EnableOTP(ctx, userID, secret)
+	if err != nil {
+		return nil, err
+	}
+
+	u.Logout(ctx, token)
+	return image, nil
+}
+
+func (u *UserService) DisableTwoFA(ctx context.Context, userID, token string) error {
+	err := u.db.DisableOTP(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	u.Logout(ctx, token)
+	return nil
 }
 
 func (u *UserService) Logout(ctx context.Context, token string) {
