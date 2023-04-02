@@ -10,7 +10,6 @@ import (
 type Config struct {
 	AppConfig
 	PostgresConfig
-	Telegram
 }
 
 type AppConfig struct {
@@ -22,10 +21,6 @@ type AppConfig struct {
 type PostgresConfig struct {
 	DSN          string `envconfig:"DB_DSN" required:"true"`
 	MigrationURL string `envconfig:"DB_MIGRATION_URL" default:"file://migrations"`
-}
-
-type Telegram struct {
-	Token string `envconfig:"TOKEN" required:"true"`
 }
 
 var (

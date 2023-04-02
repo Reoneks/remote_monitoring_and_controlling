@@ -38,7 +38,54 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Register 200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\",\n    \"otp_enabled\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:19:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -69,7 +116,104 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Login no 2fa 200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:19:34 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "196"
+								}
+							],
+							"cookie": [],
+							"body": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA0NTk1NzQsInVzZXIiOiIwMUdYMUszTUFSSzgyM0Y4TlNIQzdYN0pINSJ9.7y83gQcJQAOhjpBDrRwZYctTFQtTl21IMIpxc5vbfLrsASe31-VNrjwwkrKv5v7I_YxaeCONuWCSSI-rfVgWCg"
+						},
+						{
+							"name": "Login with 2fa 202 Accepted",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:21:21 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "2 FA",
@@ -81,7 +225,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"639451\"\n}",
+							"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"707520\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -100,14 +244,62 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "2 FA 200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"707520\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/2fa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"2fa"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:22:13 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "196"
+								}
+							],
+							"cookie": [],
+							"body": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA0NTk3MzMsInVzZXIiOiIwMUdYMUszTUFSSzgyM0Y4TlNIQzdYN0pINSJ9.Ggy3s7LsYECWIzfzyuQbOZ8Miwd8BWQL3SDX-oRTqWN18kek4cJBjGl_ZGKGxDLrMU0cF701eQWRYa3KkBr_nQ"
+						}
+					]
 				},
 				{
 					"name": "Logout",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -122,7 +314,45 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Logout 200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:24:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Enable 2fa",
@@ -160,7 +390,45 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Disable 2fa 200 OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/disable_2fa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"disable_2fa"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Apr 2023 18:22:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			]
 		}
@@ -198,7 +466,7 @@
 	"variable": [
 		{
 			"key": "token",
-			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Nzk5OTk1MjksInVzZXIiOiI0NGI2NjE1NS1lNDVjLTQ5YTgtOGFmZS0zNTQwYzAxZWNiNmEifQ.S29R8lNoda24XKP7pR-fBUYjbWsLT4_2f7mbplgG0BVpQzQ_DLjm272KGLZzyL9PPNBZoqpPhMBu0sZXj70E9A",
+			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA0NTk4MTgsInVzZXIiOiIwMUdYMUszTUFSSzgyM0Y4TlNIQzdYN0pINSJ9.17MXYxyU54JXV2OWiGnBdvsto6CMLjBtxjfSV5aZRjyb-3BzgronyFPg5iCkTT_VT7G0RC9SkXffntdSNJAMAg",
 			"type": "string"
 		}
 	]
