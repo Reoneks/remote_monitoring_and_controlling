@@ -54,10 +54,6 @@ func (p *Postgres) DisableOTP(ctx context.Context, userID string) error {
 	}).Error
 }
 
-func (p *Postgres) BindTelegramUser(ctx context.Context, userPhone string, telegramUserID int64) error {
-	return p.db.Model(&structs.User{}).Where("phone = ?", userPhone).Update("telegram_user_id", telegramUserID).Error
-}
-
 func (p *Postgres) Start(ctx context.Context) (err error) {
 	p.db, err = newDB(p.dsn, p.migrations)
 	return

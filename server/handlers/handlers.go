@@ -10,7 +10,6 @@ import (
 
 type Handler struct {
 	user      *user.UserService
-	telegram  Telegram
 	otp       *otp.OTP
 	bcrypt    *bcrypt.Bcrypt
 	validator *validator.Validate
@@ -18,13 +17,11 @@ type Handler struct {
 
 func NewHandler(
 	user *user.UserService,
-	telegram Telegram,
 	otp *otp.OTP,
 	bcrypt *bcrypt.Bcrypt,
 ) *Handler {
 	return &Handler{
 		user:      user,
-		telegram:  telegram,
 		otp:       otp,
 		bcrypt:    bcrypt,
 		validator: validator.New(),

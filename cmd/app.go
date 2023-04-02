@@ -7,7 +7,6 @@ import (
 	"project/pkg/jwt"
 	"project/pkg/otp"
 	"project/pkg/postgres"
-	"project/pkg/telegram"
 	"project/server"
 	"project/server/handlers"
 
@@ -24,14 +23,7 @@ func Exec() fx.Option {
 			postgres.NewPostgres,
 			fx.Annotate(
 				annotationDupl[postgres.Postgres],
-				fx.As(new(telegram.DB)),
 				fx.As(new(user.DB)),
-			),
-
-			telegram.NewTelegram,
-			fx.Annotate(
-				annotationDupl[telegram.Telegram],
-				fx.As(new(handlers.Telegram)),
 			),
 
 			jwt.NewJWT,
@@ -49,8 +41,7 @@ func annotationDupl[T any](v *T) *T {
 	return v
 }
 
-func prepareHooks(server *server.HTTPServer, postgres *postgres.Postgres, telegram *telegram.Telegram, lc fx.Lifecycle) {
+func prepareHooks(server *server.HTTPServer, postgres *postgres.Postgres, lc fx.Lifecycle) {
 	lc.Append(fx.Hook{OnStart: postgres.Start, OnStop: postgres.Stop})
-	lc.Append(fx.Hook{OnStart: telegram.Start, OnStop: telegram.Stop})
 	lc.Append(fx.Hook{OnStart: server.Start, OnStop: server.Stop})
 }
