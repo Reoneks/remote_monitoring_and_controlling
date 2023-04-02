@@ -7,7 +7,7 @@ import (
 	"project/pkg/otp"
 	"project/structs"
 
-	"github.com/google/uuid"
+	"github.com/oklog/ulid/v2"
 )
 
 type UserService struct {
@@ -19,7 +19,7 @@ type UserService struct {
 
 func (u *UserService) Register(ctx context.Context, req *structs.Register) ([]byte, error) {
 	var (
-		id     = uuid.NewString()
+		id     = ulid.Make().String()
 		image  []byte
 		secret string
 		err    error
