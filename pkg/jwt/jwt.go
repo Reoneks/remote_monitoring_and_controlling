@@ -5,12 +5,12 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"project/config"
-	"project/settings"
+	"remote_monitoring_and_controlling/config"
+	"remote_monitoring_and_controlling/settings"
 	"time"
 
-	"project/pkg/bcrypt"
-	"project/pkg/cache"
+	"remote_monitoring_and_controlling/pkg/bcrypt"
+	"remote_monitoring_and_controlling/pkg/cache"
 
 	"github.com/dchest/uniuri"
 	"github.com/golang-jwt/jwt/v5"

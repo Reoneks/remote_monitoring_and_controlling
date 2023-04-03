@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	"project/structs"
+	"remote_monitoring_and_controlling/structs"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"

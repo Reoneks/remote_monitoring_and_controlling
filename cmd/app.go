@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"project/config"
-	"project/internal/user"
-	"project/pkg/bcrypt"
-	"project/pkg/jwt"
-	"project/pkg/otp"
-	"project/pkg/postgres"
-	"project/server"
-	"project/server/handlers"
+	"remote_monitoring_and_controlling/config"
+	"remote_monitoring_and_controlling/internal/user"
+	"remote_monitoring_and_controlling/pkg/bcrypt"
+	"remote_monitoring_and_controlling/pkg/jwt"
+	"remote_monitoring_and_controlling/pkg/otp"
+	"remote_monitoring_and_controlling/pkg/postgres"
+	"remote_monitoring_and_controlling/server"
+	"remote_monitoring_and_controlling/server/handlers"
 
 	"go.uber.org/fx"
 )

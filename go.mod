@@ -1,4 +1,4 @@
-module project
+module remote_monitoring_and_controlling
 
 go 1.20
 

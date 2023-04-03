@@ -2,10 +2,10 @@ package user
 
 import (
 	"context"
-	"project/pkg/bcrypt"
-	"project/pkg/jwt"
-	"project/pkg/otp"
-	"project/structs"
+	"remote_monitoring_and_controlling/pkg/bcrypt"
+	"remote_monitoring_and_controlling/pkg/jwt"
+	"remote_monitoring_and_controlling/pkg/otp"
+	"remote_monitoring_and_controlling/structs"
 
 	"github.com/oklog/ulid/v2"
 )

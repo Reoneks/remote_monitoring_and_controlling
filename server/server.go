@@ -3,10 +3,10 @@ package server
 import (
 	"context"
 	"net/http"
-	"project/config"
-	"project/pkg/jwt"
-	"project/server/handlers"
-	"project/server/middleware"
+	"remote_monitoring_and_controlling/config"
+	"remote_monitoring_and_controlling/pkg/jwt"
+	"remote_monitoring_and_controlling/server/handlers"
+	"remote_monitoring_and_controlling/server/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"

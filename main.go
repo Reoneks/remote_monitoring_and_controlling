@@ -1,7 +1,7 @@
 package main
 
 import (
-	"project/cmd"
+	"remote_monitoring_and_controlling/cmd"
 
 	"go.uber.org/fx"
 )

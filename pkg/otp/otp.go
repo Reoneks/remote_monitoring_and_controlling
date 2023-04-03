@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 	"image/png"
-	"project/settings"
+	"remote_monitoring_and_controlling/settings"
 
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
@@ -15,7 +15,7 @@ type OTP struct{}
 
 func (t *OTP) GenerateKey(ctx context.Context, userID string) ([]byte, string, error) {
 	key, err := totp.Generate(totp.GenerateOpts{
-		Issuer:      "Project",
+		Issuer:      "A remote system for monitoring and controlling business processes and tasks",
 		AccountName: userID,
 		Period:      settings.OTPExpiration,
 		SecretSize:  settings.SecretSize,

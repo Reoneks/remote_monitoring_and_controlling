@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"project/internal/user"
-	"project/pkg/bcrypt"
-	"project/pkg/otp"
+	"remote_monitoring_and_controlling/internal/user"
+	"remote_monitoring_and_controlling/pkg/bcrypt"
+	"remote_monitoring_and_controlling/pkg/otp"
 
 	"github.com/go-playground/validator/v10"
 )

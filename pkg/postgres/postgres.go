@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"project/config"
-	"project/structs"
+	"remote_monitoring_and_controlling/config"
+	"remote_monitoring_and_controlling/structs"
 
 	"github.com/golang-migrate/migrate/v4"
 	mpostgres "github.com/golang-migrate/migrate/v4/database/postgres"

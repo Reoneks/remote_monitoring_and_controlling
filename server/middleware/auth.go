@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"net/http"
-	"project/pkg/jwt"
+	"remote_monitoring_and_controlling/pkg/jwt"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

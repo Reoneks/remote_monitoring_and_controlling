@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	"project/structs"
+	"remote_monitoring_and_controlling/structs"
 )
 
 type DB interface {
