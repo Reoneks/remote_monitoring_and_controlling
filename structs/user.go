@@ -7,6 +7,4 @@ type User struct {
 
 	OTPEnabled bool
 	OTPSecret  string
-
-	TelegramUserID int64
 }
