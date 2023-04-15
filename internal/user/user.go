@@ -10,14 +10,14 @@ import (
 	"github.com/oklog/ulid/v2"
 )
 
-type UserService struct {
+type Service struct {
 	db     DB
 	jwt    *jwt.JWT
 	otp    *otp.OTP
 	bcrypt *bcrypt.Bcrypt
 }
 
-func (u *UserService) Register(ctx context.Context, req *structs.Register) ([]byte, error) {
+func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, error) {
 	var (
 		id     = ulid.Make().String()
 		image  []byte
@@ -46,7 +46,7 @@ func (u *UserService) Register(ctx context.Context, req *structs.Register) ([]by
 	})
 }
 
-func (u *UserService) Login(ctx context.Context, req *structs.Login) (string, bool, error) {
+func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, error) {
 	user, err := u.db.GetUserByPhone(ctx, req.Phone)
 	if err != nil {
 		return "", false, err
@@ -64,7 +64,7 @@ func (u *UserService) Login(ctx context.Context, req *structs.Login) (string, bo
 	return token, false, err
 }
 
-func (u *UserService) OTPCheck(ctx context.Context, req *structs.TwoFA) (string, error) {
+func (u *Service) OTPCheck(ctx context.Context, req *structs.TwoFA) (string, error) {
 	user, err := u.db.GetUserByPhone(ctx, req.Phone)
 	if err != nil {
 		return "", err
@@ -78,7 +78,7 @@ func (u *UserService) OTPCheck(ctx context.Context, req *structs.TwoFA) (string,
 	return u.jwt.GenerateToken(ctx, user.ID)
 }
 
-func (u *UserService) EnableTwoFA(ctx context.Context, userID, token string) ([]byte, error) {
+func (u *Service) EnableTwoFA(ctx context.Context, userID, token string) ([]byte, error) {
 	image, secret, err := u.otp.GenerateKey(ctx, userID)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (u *UserService) EnableTwoFA(ctx context.Context, userID, token string) ([]
 	return image, nil
 }
 
-func (u *UserService) DisableTwoFA(ctx context.Context, userID, token string) error {
+func (u *Service) DisableTwoFA(ctx context.Context, userID, token string) error {
 	err := u.db.DisableOTP(ctx, userID)
 	if err != nil {
 		return err
@@ -103,13 +103,12 @@ func (u *UserService) DisableTwoFA(ctx context.Context, userID, token string) er
 	return nil
 }
 
-func (u *UserService) Logout(ctx context.Context, token string) {
+func (u *Service) Logout(ctx context.Context, token string) {
 	u.jwt.DeleteSalt(ctx, token)
-	return
 }
 
-func NewUserService(db DB, jwt *jwt.JWT, otp *otp.OTP, bcrypt *bcrypt.Bcrypt) *UserService {
-	return &UserService{
+func NewUserService(db DB, jwt *jwt.JWT, otp *otp.OTP, bcrypt *bcrypt.Bcrypt) *Service {
+	return &Service{
 		db:     db,
 		jwt:    jwt,
 		otp:    otp,

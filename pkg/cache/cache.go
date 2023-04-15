@@ -23,11 +23,12 @@ func (c *Cache[T]) Get(ctx context.Context, key string) (T, bool) {
 		return res, found
 	}
 
-	if res, ok := val.(T); !ok {
+	res, ok := val.(T)
+	if !ok {
 		return res, false
-	} else {
-		return res, found
 	}
+
+	return res, found
 }
 
 func (c *Cache[T]) Delete(ctx context.Context, key string) {

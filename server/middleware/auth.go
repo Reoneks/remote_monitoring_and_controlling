@@ -1,22 +1,22 @@
 package middleware
 
 import (
+	"errors"
 	"net/http"
 	"remote_monitoring_and_controlling/pkg/jwt"
 
+	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 func AuthMiddleware(auth *jwt.JWT) echo.MiddlewareFunc {
-	return middleware.JWTWithConfig(middleware.JWTConfig{
-		ErrorHandlerWithContext: func(err error, ctx echo.Context) error {
-			errorText := ""
-
-			switch err {
-			case jwt.ErrExpired, jwt.ErrUserGet:
+	return echojwt.WithConfig(echojwt.Config{
+		ErrorHandler: func(ctx echo.Context, err error) error {
+			var errorText string
+			
+			if errors.Is(err, jwt.ErrExpired) || errors.Is(err, jwt.ErrUserGet) {
 				errorText = err.Error()
-			default:
+			} else {
 				errorText = "Failed to validate token"
 			}
 
@@ -24,7 +24,7 @@ func AuthMiddleware(auth *jwt.JWT) echo.MiddlewareFunc {
 				"error": errorText,
 			})
 		},
-		ParseTokenFunc: func(accessToken string, ctx echo.Context) (any, error) {
+		ParseTokenFunc: func(ctx echo.Context, accessToken string) (any, error) {
 			userID, err := auth.ValidateToken(ctx.Request().Context(), accessToken, true)
 			if err != nil {
 				return nil, err

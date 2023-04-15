@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"remote_monitoring_and_controlling/config"
 	"remote_monitoring_and_controlling/pkg/jwt"
@@ -47,7 +48,7 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	private.PATCH("/disable_2fa", s.handlers.DisableTwoFA)
 
 	go func() {
-		if err := s.router.Start(s.appAddr); err != nil && err != http.ErrServerClosed {
+		if err := s.router.Start(s.appAddr); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatal().Str("function", "Start").Err(err).Msg("Server start error")
 		}
 	}()

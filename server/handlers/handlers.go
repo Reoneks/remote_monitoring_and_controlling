@@ -9,14 +9,14 @@ import (
 )
 
 type Handler struct {
-	user      *user.UserService
+	user      *user.Service
 	otp       *otp.OTP
 	bcrypt    *bcrypt.Bcrypt
 	validator *validator.Validate
 }
 
 func NewHandler(
-	user *user.UserService,
+	user *user.Service,
 	otp *otp.OTP,
 	bcrypt *bcrypt.Bcrypt,
 ) *Handler {

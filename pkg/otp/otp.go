@@ -32,7 +32,11 @@ func (t *OTP) GenerateKey(ctx context.Context, userID string) ([]byte, string, e
 		return nil, "", fmt.Errorf("Failed to convert totp key into image: %w", err)
 	}
 
-	png.Encode(&buf, img)
+	err = png.Encode(&buf, img)
+	if err != nil {
+		return nil, "", fmt.Errorf("Failed to encode totp image into bytes buffer: %w", err)
+	}
+
 	return buf.Bytes(), key.Secret(), nil
 }
 

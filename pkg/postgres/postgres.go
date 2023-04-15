@@ -9,7 +9,7 @@ import (
 
 	"github.com/golang-migrate/migrate/v4"
 	mpostgres "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/golang-migrate/migrate/v4/source/file" // Needs for correct migrations
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	glog "gorm.io/gorm/logger"
@@ -81,14 +81,14 @@ func newDB(dsn, migrationsURL string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("Postgres.newDB gorm connection open error: %w", err)
 	}
 
-	if err := migrations(client, dsn, migrationsURL); err != nil {
+	if err := migrations(client, migrationsURL); err != nil {
 		return nil, fmt.Errorf("Postgres.newDB gorm migrations error: %w", err)
 	}
 
 	return client, nil
 }
 
-func migrations(client *gorm.DB, dsn, migrationsURL string) error {
+func migrations(client *gorm.DB, migrationsURL string) error {
 	db, err := client.DB()
 	if err != nil {
 		return fmt.Errorf("Postgres.migrations failed to get sql connection: %w", err)
