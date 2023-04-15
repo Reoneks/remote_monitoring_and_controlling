@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/dchest/uniuri v1.2.0
+	github.com/dongri/phonenumber v0.0.0-20230202225648-47b8ee687b9f
 	github.com/go-playground/validator/v10 v10.12.0
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.2
 	github.com/golang-migrate/migrate/v4 v4.15.2

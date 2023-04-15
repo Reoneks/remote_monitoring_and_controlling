@@ -1,6 +1,9 @@
 package handlers
 
-import "errors"
+import (
+	"errors"
+	"remote_monitoring_and_controlling/internal/user"
+)
 
 var (
 	ErrBind     = errors.New("Invalid data")
@@ -11,5 +14,18 @@ var (
 func newHTTPError(err error) map[string]any {
 	return map[string]any{
 		"error": err.Error(),
+	}
+}
+
+func checkErr(err, defaultErr error) error {
+	switch {
+	case errors.Is(err, user.ErrInvalidOtpCode):
+		return user.ErrInvalidOtpCode
+	case errors.Is(err, user.ErrInvalidPassword):
+		return user.ErrInvalidPassword
+	case errors.Is(err, user.ErrInvalidPhone):
+		return user.ErrInvalidPhone
+	default:
+		return defaultErr
 	}
 }

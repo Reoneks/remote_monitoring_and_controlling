@@ -8,6 +8,7 @@ import (
 	"remote_monitoring_and_controlling/pkg/otp"
 	"remote_monitoring_and_controlling/structs"
 
+	"github.com/dongri/phonenumber"
 	"github.com/oklog/ulid/v2"
 )
 
@@ -26,6 +27,11 @@ func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, 
 		err    error
 	)
 
+	phoneNumber := phonenumber.Parse(req.Phone, "")
+	if phoneNumber == "" {
+		return nil, ErrInvalidPhone
+	}
+
 	if req.OTPEnabled {
 		image, secret, err = u.otp.GenerateKey(ctx, id)
 		if err != nil {
@@ -40,7 +46,7 @@ func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, 
 
 	return image, u.db.CreateUser(ctx, &structs.User{
 		ID:         id,
-		Phone:      req.Phone,
+		Phone:      phoneNumber,
 		Password:   encryptedPassword,
 		OTPEnabled: req.OTPEnabled,
 		OTPSecret:  secret,

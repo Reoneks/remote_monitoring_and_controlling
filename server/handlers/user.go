@@ -24,7 +24,7 @@ func (h *Handler) Register(ctx echo.Context) error {
 	image, err := h.user.Register(ctx.Request().Context(), &req)
 	if err != nil {
 		log.Error().Str("function", "Register").Err(err).Msg("Failed to register user")
-		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrRegister))
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrRegister)))
 	}
 
 	if len(image) > 0 {
@@ -49,7 +49,7 @@ func (h *Handler) Login(ctx echo.Context) error {
 	token, twoFAEnabled, err := h.user.Login(ctx.Request().Context(), &req)
 	if err != nil {
 		log.Error().Str("function", "Login").Err(err).Msg("Failed to login user")
-		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrLogin))
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrLogin)))
 	}
 
 	if twoFAEnabled {
@@ -74,7 +74,7 @@ func (h *Handler) TwoFA(ctx echo.Context) error {
 	token, err := h.user.OTPCheck(ctx.Request().Context(), &req)
 	if err != nil {
 		log.Error().Str("function", "TwoFA").Err(err).Msg("Failed to login user")
-		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrLogin))
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrLogin)))
 	}
 
 	return ctx.String(http.StatusOK, token)
