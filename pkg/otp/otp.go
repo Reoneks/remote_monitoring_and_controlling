@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"image/png"
+
 	"remote_monitoring_and_controlling/settings"
 
 	"github.com/pquerna/otp"

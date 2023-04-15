@@ -2,8 +2,9 @@ package cache
 
 import (
 	"context"
-	"remote_monitoring_and_controlling/settings"
 	"time"
+
+	"remote_monitoring_and_controlling/settings"
 
 	"github.com/patrickmn/go-cache"
 )

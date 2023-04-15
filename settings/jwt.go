@@ -3,5 +3,5 @@ package settings
 import "time"
 
 const (
-	TokenDefaultExpiration = 12*time.Hour
+	TokenDefaultExpiration = 12 * time.Hour
 )

@@ -5,9 +5,10 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"time"
+
 	"remote_monitoring_and_controlling/config"
 	"remote_monitoring_and_controlling/settings"
-	"time"
 
 	"remote_monitoring_and_controlling/pkg/bcrypt"
 	"remote_monitoring_and_controlling/pkg/cache"
