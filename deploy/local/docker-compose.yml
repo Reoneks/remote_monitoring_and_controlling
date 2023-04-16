@@ -1,38 +1,25 @@
 version: '3.7'
 
 services:
-  dynamo:
-    container_name: local-dynamodb
-    image: amazon/dynamodb-local
-    networks:
-      - local
+  db:
+    image: postgres:latest
+    container_name: analytics
     ports:
-      - "12364:8000"
+      - '5433:5432'
     restart: always
     volumes:
-      - dynamodata:/home/dynamodblocal
+      - ./tmp/db/data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: project
-    working_dir: /home/dynamodblocal
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ."
 
   backend:
     build:
       context: ../../
     container_name: backend-local
-    networks:
-      - local
     depends_on:
-      - dynamo
+      - db
     ports:
       - '1140:1140'
     restart: always
-
-networks:
-  local:
-    name: local
-
-volumes:
-  dynamodata: {}
