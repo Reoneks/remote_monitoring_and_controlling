@@ -77,7 +77,7 @@ func (u *Service) OTPCheck(ctx context.Context, req *structs.TwoFA) (string, err
 		return "", err
 	}
 
-	ok := u.otp.ValidateKey(ctx, req.Password, user.OTPSecret)
+	ok := u.otp.ValidateKey(ctx, req.OTPPassword, user.OTPSecret)
 	if !ok {
 		return "", ErrInvalidOtpCode
 	}
