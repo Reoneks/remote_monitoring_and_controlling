@@ -26,6 +26,8 @@ func checkErr(err, defaultErr error) error {
 		return user.ErrInvalidPassword
 	case errors.Is(err, user.ErrInvalidPhone):
 		return user.ErrInvalidPhone
+	case errors.Is(err, user.ErrInvalid2FAID):
+		return user.ErrInvalid2FAID
 	default:
 		return defaultErr
 	}

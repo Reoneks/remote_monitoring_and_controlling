@@ -25,31 +25,31 @@ type Postgres struct {
 
 func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (structs.User, error) {
 	var result structs.User
-	return result, p.db.Model(&result).Where("phone = ?", phone).First(&result).Error
+	return result, p.db.Model(&result).WithContext(ctx).Where("phone = ?", phone).First(&result).Error
 }
 
 func (p *Postgres) GetUserByID(ctx context.Context, userID string) (structs.User, error) {
 	var result structs.User
-	return result, p.db.Model(&result).Where("id = ?", userID).First(&result).Error
+	return result, p.db.Model(&result).WithContext(ctx).Where("id = ?", userID).First(&result).Error
 }
 
 func (p *Postgres) CreateUser(ctx context.Context, user *structs.User) error {
-	return p.db.Model(user).Create(user).Error
+	return p.db.Model(user).WithContext(ctx).Create(user).Error
 }
 
 func (p *Postgres) ChangePassword(ctx context.Context, userID, password string) error {
-	return p.db.Model(&structs.User{}).Where("id = ?", userID).Update("password", password).Error
+	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Update("password", password).Error
 }
 
 func (p *Postgres) EnableOTP(ctx context.Context, userID, secret string) error {
-	return p.db.Model(&structs.User{}).Where("id = ?", userID).Updates(map[string]any{
+	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Updates(map[string]any{
 		"otp_enabled": true,
 		"otp_secret":  secret,
 	}).Error
 }
 
 func (p *Postgres) DisableOTP(ctx context.Context, userID string) error {
-	return p.db.Model(&structs.User{}).Where("id = ?", userID).Updates(map[string]any{
+	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Updates(map[string]any{
 		"otp_enabled": false,
 		"otp_secret":  "",
 	}).Error

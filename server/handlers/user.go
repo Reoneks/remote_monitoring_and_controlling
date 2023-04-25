@@ -53,7 +53,7 @@ func (h *Handler) Login(ctx echo.Context) error {
 	}
 
 	if twoFAEnabled {
-		return ctx.NoContent(http.StatusAccepted)
+		return ctx.String(http.StatusAccepted, token)
 	}
 
 	return ctx.String(http.StatusOK, token)

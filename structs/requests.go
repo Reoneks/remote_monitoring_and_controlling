@@ -12,6 +12,6 @@ type Login struct {
 }
 
 type TwoFA struct {
-	Phone       string `json:"phone" validate:"required"`
+	ID          string `json:"id" validate:"required"`
 	OTPPassword string `json:"password" validate:"required"`
 }

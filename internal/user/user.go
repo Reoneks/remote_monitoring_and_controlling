@@ -2,6 +2,9 @@ package user
 
 import (
 	"context"
+	"time"
+
+	"remote_monitoring_and_controlling/pkg/cache"
 
 	"remote_monitoring_and_controlling/pkg/bcrypt"
 	"remote_monitoring_and_controlling/pkg/jwt"
@@ -17,6 +20,7 @@ type Service struct {
 	jwt    *jwt.JWT
 	otp    *otp.OTP
 	bcrypt *bcrypt.Bcrypt
+	cache  *cache.Cache[structs.User]
 }
 
 func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, error) {
@@ -54,7 +58,12 @@ func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, 
 }
 
 func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, error) {
-	user, err := u.db.GetUserByPhone(ctx, req.Phone)
+	phoneNumber := phonenumber.Parse(req.Phone, "")
+	if phoneNumber == "" {
+		return "", false, ErrInvalidPhone
+	}
+
+	user, err := u.db.GetUserByPhone(ctx, phoneNumber)
 	if err != nil {
 		return "", false, err
 	}
@@ -64,7 +73,9 @@ func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, 
 	}
 
 	if user.OTPEnabled {
-		return "", true, nil
+		id := ulid.Make().String()
+		u.cache.Set(ctx, id, user, 3*time.Minute)
+		return id, true, nil
 	}
 
 	token, err := u.jwt.GenerateToken(ctx, user.ID)
@@ -72,11 +83,12 @@ func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, 
 }
 
 func (u *Service) OTPCheck(ctx context.Context, req *structs.TwoFA) (string, error) {
-	user, err := u.db.GetUserByPhone(ctx, req.Phone)
-	if err != nil {
-		return "", err
+	user, found := u.cache.Get(ctx, req.ID)
+	if !found {
+		return "", ErrInvalid2FAID
 	}
 
+	u.cache.Delete(ctx, req.ID)
 	ok := u.otp.ValidateKey(ctx, req.OTPPassword, user.OTPSecret)
 	if !ok {
 		return "", ErrInvalidOtpCode
@@ -120,5 +132,6 @@ func NewUserService(db DB, jwt *jwt.JWT, otp *otp.OTP, bcrypt *bcrypt.Bcrypt) *S
 		jwt:    jwt,
 		otp:    otp,
 		bcrypt: bcrypt,
+		cache:  cache.NewCache[structs.User](),
 	}
 }
