@@ -37,10 +37,6 @@ func (p *Postgres) CreateUser(ctx context.Context, user *structs.User) error {
 	return p.db.Model(user).WithContext(ctx).Create(user).Error
 }
 
-func (p *Postgres) ChangePassword(ctx context.Context, userID, password string) error {
-	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Update("password", password).Error
-}
-
 func (p *Postgres) EnableOTP(ctx context.Context, userID, secret string) error {
 	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Updates(map[string]any{
 		"otp_enabled": true,
