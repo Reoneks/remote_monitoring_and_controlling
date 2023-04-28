@@ -48,6 +48,7 @@ func (u *Service) Register(ctx context.Context, req *structs.Register) ([]byte, 
 		return nil, err
 	}
 
+	phoneNumber = "+" + phoneNumber
 	return image, u.db.CreateUser(ctx, &structs.User{
 		ID:         id,
 		Phone:      phoneNumber,
@@ -63,6 +64,7 @@ func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, 
 		return "", false, ErrInvalidPhone
 	}
 
+	phoneNumber = "+" + phoneNumber
 	user, err := u.db.GetUserByPhone(ctx, phoneNumber)
 	if err != nil {
 		return "", false, err

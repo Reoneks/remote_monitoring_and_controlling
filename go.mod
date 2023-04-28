@@ -4,9 +4,9 @@ go 1.20
 
 require (
 	github.com/dchest/uniuri v1.2.0
-	github.com/dongri/phonenumber v0.0.0-20230202225648-47b8ee687b9f
+	github.com/dongri/phonenumber v0.0.0-20230428094603-9e2d44886294
 	github.com/go-playground/validator/v10 v10.12.0
-	github.com/golang-jwt/jwt/v5 v5.0.0-rc.2
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -38,7 +38,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.3 // indirect
-	github.com/lib/pq v1.10.8 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
