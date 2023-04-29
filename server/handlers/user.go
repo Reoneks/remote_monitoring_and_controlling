@@ -59,6 +59,30 @@ func (h *Handler) Login(ctx echo.Context) error {
 	return ctx.String(http.StatusOK, token)
 }
 
+func (h *Handler) AddAlternativeNumber(ctx echo.Context) error {
+	var req struct {
+		Phone string `json:"phone"`
+	}
+	if err := ctx.Bind(&req); err != nil {
+		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to bind alternative phone number")
+		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
+	}
+
+	userID, ok := ctx.Get("userID").(string)
+	if !ok {
+		log.Error().Str("function", "AddAlternativeNumber").Msg("Failed to get userID")
+		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
+	}
+
+	err := h.user.AddAlternativeNumber(ctx.Request().Context(), userID, req.Phone)
+	if err != nil {
+		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to add alternative phone number")
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrAddPhone))
+	}
+
+	return ctx.NoContent(http.StatusOK)
+}
+
 func (h *Handler) TwoFA(ctx echo.Context) error {
 	var req structs.TwoFA
 	if err := ctx.Bind(&req); err != nil {

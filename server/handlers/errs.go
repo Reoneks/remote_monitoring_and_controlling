@@ -10,6 +10,7 @@ var (
 	ErrBind     = errors.New("Invalid data")
 	ErrLogin    = errors.New("Failed to login")
 	ErrRegister = errors.New("Failed to register user")
+	ErrAddPhone = errors.New("Failed to add alternative phone number")
 )
 
 func newHTTPError(err error) map[string]any {

@@ -84,6 +84,22 @@ func (u *Service) Login(ctx context.Context, req *structs.Login) (string, bool, 
 	return token, false, err
 }
 
+func (u *Service) AddAlternativeNumber(ctx context.Context, userID, phone string) error {
+	phoneNumber := phonenumber.Parse(phone, "")
+	if phoneNumber == "" {
+		return ErrInvalidPhone
+	}
+
+	phoneNumber = "+" + phoneNumber
+	user, err := u.db.GetUserByID(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	user.Phone = phoneNumber
+	return u.db.CreateUser(ctx, &user)
+}
+
 func (u *Service) OTPCheck(ctx context.Context, req *structs.TwoFA) (string, error) {
 	user, found := u.cache.Get(ctx, req.ID)
 	if !found {
