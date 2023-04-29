@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\",\n    \"otp_enabled\": false\n}",
+							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\",\n    \"otp_enabled\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -97,7 +97,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\"\n}",
+							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -174,7 +174,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\"\n}",
+									"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -198,25 +198,29 @@
 							"_postman_previewlanguage": "plain",
 							"header": [
 								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=UTF-8"
+								},
+								{
 									"key": "Vary",
 									"value": "Origin"
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 02 Apr 2023 18:21:21 GMT"
+									"value": "Tue, 25 Apr 2023 11:43:36 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "0"
+									"value": "26"
 								}
 							],
 							"cookie": [],
-							"body": null
+							"body": "01GYW3KVCTPZJJA9Q5R78FB7NK"
 						}
 					]
 				},
 				{
-					"name": "2 FA",
+					"name": "2FA",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -225,7 +229,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"707520\"\n}",
+							"raw": "{\n    \"id\": \"01GYW3KVCTPZJJA9Q5R78FB7NK\",\n    \"password\": \"774766\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -355,6 +359,34 @@
 					]
 				},
 				{
+					"name": "Add Alternative Phone Number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+(38)095-768-43-49\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1140/add_phone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"add_phone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Enable 2fa",
 					"request": {
 						"method": "PATCH",
@@ -466,7 +498,7 @@
 	"variable": [
 		{
 			"key": "token",
-			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA0NTk4MTgsInVzZXIiOiIwMUdYMUszTUFSSzgyM0Y4TlNIQzdYN0pINSJ9.17MXYxyU54JXV2OWiGnBdvsto6CMLjBtxjfSV5aZRjyb-3BzgronyFPg5iCkTT_VT7G0RC9SkXffntdSNJAMAg",
+			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODE1NjYxMDYsInVzZXIiOiIwMUdZMkpDU1dUV01YUUFOUk5WR1A5TjVSTSJ9.fewu2uynEfGTdmpq4LN7HXB5PpRvYVOJtvBBsKxP9_-D18TvUyfXW4q5Ga9zqR7TXYb_aLgWO1Z80nkAc7Rmew",
 			"type": "string"
 		}
 	]
