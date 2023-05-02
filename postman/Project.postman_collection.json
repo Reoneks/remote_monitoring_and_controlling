@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\",\n    \"otp_enabled\": false\n}",
+							"raw": "{\n    \"full_name\": \"User name\",\n    \"password\": \"password\",\n    \"department\": \"department\",\n    \"position\": \"position\",\n    \"foreign_id\": \"\",\n    \"otp_enabled\": false,\n    \"contact_info\": [\n        {\n            \"type\": \"Work\",\n            \"phone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -46,7 +46,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"phone\": \"test\",\n    \"password\": \"test\",\n    \"otp_enabled\": false\n}",
+									"raw": "{\n    \"full_name\": \"User name\",\n    \"password\": \"password\",\n    \"department\": \"department\",\n    \"position\": \"position\",\n    \"foreign_id\": \"\",\n    \"otp_enabled\": false,\n    \"contact_info\": [\n        {\n            \"type\": \"Work\",\n            \"phone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -253,7 +253,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"01GZEDFZRWWXCEY62CW2FY9ABD\",\n    \"password\": \"289409\"\n}",
+							"raw": "{\n    \"id\": \"01GZF1MABE08AD3WGKSAT0VJ2R\",\n    \"password\": \"393020\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -389,7 +389,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+(38)095-768-43-49\"\n}",
+							"raw": "{\n    \"phone\": \"+(38)095-768-43-49\",\n    \"type\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,7 +416,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"phone\": \"+(38)095-768-43-49\"\n}",
+									"raw": "{\n    \"phone\": \"+(38)095-768-43-49\",\n    \"type\": \"test\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
