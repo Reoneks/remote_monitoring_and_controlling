@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\",\n    \"otp_enabled\": true\n}",
+							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\",\n    \"otp_enabled\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,7 +40,7 @@
 					},
 					"response": [
 						{
-							"name": "Register 200 OK",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -89,6 +89,19 @@
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code == 200) {",
+									"    pm.collectionVariables.set(\"token\", pm.response.text());",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -118,7 +131,7 @@
 					},
 					"response": [
 						{
-							"name": "Login no 2fa 200 OK",
+							"name": "No 2fa 200 OK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -168,7 +181,7 @@
 							"body": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA0NTk1NzQsInVzZXIiOiIwMUdYMUszTUFSSzgyM0Y4TlNIQzdYN0pINSJ9.7y83gQcJQAOhjpBDrRwZYctTFQtTl21IMIpxc5vbfLrsASe31-VNrjwwkrKv5v7I_YxaeCONuWCSSI-rfVgWCg"
 						},
 						{
-							"name": "Login with 2fa 202 Accepted",
+							"name": "With 2fa 202 Accepted",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -221,6 +234,17 @@
 				},
 				{
 					"name": "2FA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", pm.response.text());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -229,7 +253,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"01GYW3KVCTPZJJA9Q5R78FB7NK\",\n    \"password\": \"774766\"\n}",
+							"raw": "{\n    \"id\": \"01GZEDFZRWWXCEY62CW2FY9ABD\",\n    \"password\": \"289409\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,7 +274,7 @@
 					},
 					"response": [
 						{
-							"name": "2 FA 200 OK",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -320,7 +344,7 @@
 					},
 					"response": [
 						{
-							"name": "Logout 200 OK",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -384,7 +408,54 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"phone\": \"+(38)095-768-43-49\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/add_phone",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"add_phone"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 02 May 2023 14:18:06 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Enable 2fa",
@@ -424,7 +495,7 @@
 					},
 					"response": [
 						{
-							"name": "Disable 2fa 200 OK",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
@@ -498,7 +569,7 @@
 	"variable": [
 		{
 			"key": "token",
-			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODE1NjYxMDYsInVzZXIiOiIwMUdZMkpDU1dUV01YUUFOUk5WR1A5TjVSTSJ9.fewu2uynEfGTdmpq4LN7HXB5PpRvYVOJtvBBsKxP9_-D18TvUyfXW4q5Ga9zqR7TXYb_aLgWO1Z80nkAc7Rmew",
+			"value": "",
 			"type": "string"
 		}
 	]

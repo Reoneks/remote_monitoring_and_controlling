@@ -96,6 +96,7 @@ func (u *Service) AddAlternativeNumber(ctx context.Context, userID, phone string
 		return err
 	}
 
+	user.ID = ulid.Make().String()
 	user.Phone = phoneNumber
 	return u.db.CreateUser(ctx, &user)
 }
