@@ -2,14 +2,14 @@ package user
 
 import (
 	"context"
-
-	"remote_monitoring_and_controlling/structs"
+	"remote_monitoring_and_controlling/pkg/postgres"
 )
 
 type DB interface {
-	GetUserByID(ctx context.Context, userID string) (structs.User, error)
-	GetUserByPhone(ctx context.Context, phone string) (structs.User, error)
-	CreateUser(ctx context.Context, user *structs.User) error
+	GetUserByPhone(ctx context.Context, phone string) (postgres.User, error)
+	CreateUser(ctx context.Context, user *postgres.User) error
+	AddContactInfo(ctx context.Context, contactInfo *postgres.ContactInfo) error
 	EnableOTP(ctx context.Context, userID, secret string) error
 	DisableOTP(ctx context.Context, userID string) error
+	DeleteUser(ctx context.Context, userID string) error
 }

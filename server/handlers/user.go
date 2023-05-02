@@ -2,15 +2,14 @@ package handlers
 
 import (
 	"net/http"
-
-	"remote_monitoring_and_controlling/structs"
+	"remote_monitoring_and_controlling/internal/user"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
 
 func (h *Handler) Register(ctx echo.Context) error {
-	var req structs.Register
+	var req user.Register
 	if err := ctx.Bind(&req); err != nil {
 		log.Error().Str("function", "Register").Err(err).Msg("Failed to bind user data")
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
@@ -35,7 +34,7 @@ func (h *Handler) Register(ctx echo.Context) error {
 }
 
 func (h *Handler) Login(ctx echo.Context) error {
-	var req structs.Login
+	var req user.Login
 	if err := ctx.Bind(&req); err != nil {
 		log.Error().Str("function", "Login").Err(err).Msg("Failed to bind user data")
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
@@ -60,9 +59,7 @@ func (h *Handler) Login(ctx echo.Context) error {
 }
 
 func (h *Handler) AddAlternativeNumber(ctx echo.Context) error {
-	var req struct {
-		Phone string `json:"phone"`
-	}
+	var req user.ContactInfo
 	if err := ctx.Bind(&req); err != nil {
 		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to bind alternative phone number")
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
@@ -74,7 +71,7 @@ func (h *Handler) AddAlternativeNumber(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
 	}
 
-	err := h.user.AddAlternativeNumber(ctx.Request().Context(), userID, req.Phone)
+	err := h.user.AddAlternativeNumber(ctx.Request().Context(), &req, userID)
 	if err != nil {
 		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to add alternative phone number")
 		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrAddPhone))
@@ -84,7 +81,7 @@ func (h *Handler) AddAlternativeNumber(ctx echo.Context) error {
 }
 
 func (h *Handler) TwoFA(ctx echo.Context) error {
-	var req structs.TwoFA
+	var req user.TwoFA
 	if err := ctx.Bind(&req); err != nil {
 		log.Error().Str("function", "TwoFA").Err(err).Msg("Failed to bind 2fa data")
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))

@@ -6,13 +6,13 @@ import (
 	"fmt"
 
 	"remote_monitoring_and_controlling/config"
-	"remote_monitoring_and_controlling/structs"
 
 	"github.com/golang-migrate/migrate/v4"
 	mpostgres "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file" // Needs for correct migrations
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	glog "gorm.io/gorm/logger"
 )
 
@@ -21,32 +21,44 @@ type Postgres struct {
 	cfg *config.PostgresConfig
 }
 
-func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (structs.User, error) {
-	var result structs.User
-	return result, p.db.Model(&result).WithContext(ctx).Where("phone = ?", phone).First(&result).Error
+func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (User, error) {
+	var result User
+	return result, p.db.WithContext(ctx).Model(&User{}).
+		Select([]string{
+			"users.id",
+			"users.department",
+			"users.position",
+			"users.full_name",
+			"users.foreign_id",
+			"users.password",
+			"users.otp_secret",
+		}).
+		Joins("INNER JOIN contact_info ON users.id = contact_info.user_id").
+		Where("contact_info.phone = ?", phone).
+		First(&result).Error
 }
 
-func (p *Postgres) GetUserByID(ctx context.Context, userID string) (structs.User, error) {
-	var result structs.User
-	return result, p.db.Model(&result).WithContext(ctx).Where("id = ?", userID).First(&result).Error
-}
-
-func (p *Postgres) CreateUser(ctx context.Context, user *structs.User) error {
+func (p *Postgres) CreateUser(ctx context.Context, user *User) error {
 	return p.db.Model(user).WithContext(ctx).Create(user).Error
 }
 
+func (p *Postgres) AddContactInfo(ctx context.Context, contactInfo *ContactInfo) error {
+	return p.db.Model(contactInfo).WithContext(ctx).Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "user_id"}, {Name: "phone"}},
+		DoUpdates: clause.AssignmentColumns([]string{"type"}),
+	}).Create(contactInfo).Error
+}
+
 func (p *Postgres) EnableOTP(ctx context.Context, userID, secret string) error {
-	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Updates(map[string]any{
-		"otp_enabled": true,
-		"otp_secret":  secret,
-	}).Error
+	return p.db.Model(&User{}).WithContext(ctx).Where("id = ?", userID).Update("otp_secret", secret).Error
 }
 
 func (p *Postgres) DisableOTP(ctx context.Context, userID string) error {
-	return p.db.Model(&structs.User{}).WithContext(ctx).Where("id = ?", userID).Updates(map[string]any{
-		"otp_enabled": false,
-		"otp_secret":  "",
-	}).Error
+	return p.db.Model(&User{}).WithContext(ctx).Where("id = ?", userID).Update("otp_secret", "").Error
+}
+
+func (p *Postgres) DeleteUser(ctx context.Context, userID string) error {
+	return p.db.Model(&User{}).WithContext(ctx).Where("id = ?", userID).Delete(&User{}).Error
 }
 
 func (p *Postgres) Start(ctx context.Context) (err error) {
