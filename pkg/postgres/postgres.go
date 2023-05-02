@@ -68,6 +68,12 @@ func (p *Postgres) Stop(ctx context.Context) error {
 	return nil
 }
 
+func NewPostgres(cfg *config.Config) *Postgres {
+	return &Postgres{
+		cfg: &cfg.PostgresConfig,
+	}
+}
+
 func newDB(dsn, migrationsURL string) (*gorm.DB, error) {
 	client, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: glog.Default.LogMode(glog.Silent),
@@ -108,10 +114,4 @@ func migrations(client *gorm.DB, migrationsURL string) error {
 	}
 
 	return nil
-}
-
-func NewPostgres(cfg *config.Config) *Postgres {
-	return &Postgres{
-		cfg: &cfg.PostgresConfig,
-	}
 }

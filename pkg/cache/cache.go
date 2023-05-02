@@ -13,10 +13,6 @@ type Cache[T any] struct {
 	c *cache.Cache
 }
 
-func (c *Cache[T]) Set(ctx context.Context, key string, value T, duration time.Duration) {
-	c.c.Set(key, value, duration)
-}
-
 func (c *Cache[T]) Get(ctx context.Context, key string) (T, bool) {
 	val, found := c.c.Get(key)
 	if !found {
@@ -30,6 +26,10 @@ func (c *Cache[T]) Get(ctx context.Context, key string) (T, bool) {
 	}
 
 	return res, found
+}
+
+func (c *Cache[T]) Set(ctx context.Context, key string, value T, duration time.Duration) {
+	c.c.Set(key, value, duration)
 }
 
 func (c *Cache[T]) Delete(ctx context.Context, key string) {

@@ -25,12 +25,11 @@ type JWT struct {
 }
 
 func (j *JWT) GenerateToken(ctx context.Context, userID string) (accessToken string, err error) {
-	now := time.Now()
 	token := jwt.New(jwt.SigningMethodHS512)
 
 	claims := make(jwt.MapClaims)
 	claims["user"] = userID
-	claims["iat"] = now.Unix()
+	claims["iat"] = time.Now().Unix()
 	token.Claims = claims
 
 	salt, err := password.Generate(10, 3, 3, false, true)
@@ -47,7 +46,7 @@ func (j *JWT) GenerateToken(ctx context.Context, userID string) (accessToken str
 	return
 }
 
-func (j *JWT) ValidateToken(ctx context.Context, tokenString string, accessKey bool) (string, error) {
+func (j *JWT) ValidateToken(ctx context.Context, tokenString string) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Invalid token signing method")

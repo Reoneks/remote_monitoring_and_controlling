@@ -26,7 +26,7 @@ func AuthMiddleware(auth *jwt.JWT) echo.MiddlewareFunc {
 			})
 		},
 		ParseTokenFunc: func(ctx echo.Context, accessToken string) (any, error) {
-			userID, err := auth.ValidateToken(ctx.Request().Context(), accessToken, true)
+			userID, err := auth.ValidateToken(ctx.Request().Context(), accessToken)
 			if err != nil {
 				return nil, err
 			}
