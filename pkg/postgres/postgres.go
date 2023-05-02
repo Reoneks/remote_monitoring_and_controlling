@@ -17,10 +17,8 @@ import (
 )
 
 type Postgres struct {
-	db *gorm.DB
-
-	dsn        string
-	migrations string
+	db  *gorm.DB
+	cfg *config.PostgresConfig
 }
 
 func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (structs.User, error) {
@@ -52,7 +50,7 @@ func (p *Postgres) DisableOTP(ctx context.Context, userID string) error {
 }
 
 func (p *Postgres) Start(ctx context.Context) (err error) {
-	p.db, err = newDB(p.dsn, p.migrations)
+	p.db, err = newDB(p.cfg.DSN, p.cfg.MigrationURL)
 	return
 }
 
@@ -113,8 +111,7 @@ func migrations(client *gorm.DB, migrationsURL string) error {
 }
 
 func NewPostgres(cfg *config.Config) *Postgres {
-	postgres := new(Postgres)
-	postgres.dsn = cfg.DSN
-	postgres.migrations = cfg.MigrationURL
-	return postgres
+	return &Postgres{
+		cfg: &cfg.PostgresConfig,
+	}
 }
