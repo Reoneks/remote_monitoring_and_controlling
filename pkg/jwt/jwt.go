@@ -81,7 +81,7 @@ func (j *JWT) DeleteSalt(ctx context.Context, token string) {
 }
 
 func NewJWT(cfg *config.Config, bcrypt *bcrypt.Bcrypt) (*JWT, error) {
-	accessHash, err := bcrypt.Encode(context.Background(), base64.StdEncoding.EncodeToString([]byte(cfg.JWTAccessSecret)))
+	accessHash, err := bcrypt.Encode(context.Background(), base64.StdEncoding.EncodeToString([]byte(cfg.JWTSecret)))
 	if err != nil {
 		return nil, fmt.Errorf("Failed to encode jwt access secret")
 	}
