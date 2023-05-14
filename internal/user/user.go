@@ -24,19 +24,13 @@ type Service struct {
 	cache  *cache.Cache[OTPData]
 }
 
-func (u *Service) Register(ctx context.Context, req *Register) ([]byte, error) {
-	var (
-		id     = ulid.Make().String()
-		image  []byte
-		secret string
-		err    error
-	)
-
+func (u *Service) Register(ctx context.Context, req *Register) error {
+	id := ulid.Make().String()
 	contactInfo := make([]postgres.ContactInfo, 0, len(req.ContactInfo))
 	for _, info := range req.ContactInfo {
 		phoneNumber := phonenumber.Parse(info.Phone, "")
 		if phoneNumber == "" {
-			return nil, ErrInvalidPhone
+			return ErrInvalidPhone
 		}
 
 		contactInfo = append(contactInfo, postgres.ContactInfo{
@@ -46,16 +40,9 @@ func (u *Service) Register(ctx context.Context, req *Register) ([]byte, error) {
 		})
 	}
 
-	if req.OTPEnabled {
-		image, secret, err = u.otp.GenerateKey(ctx, id)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	encryptedPassword, err := u.bcrypt.Encode(ctx, req.Password)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	err = u.db.CreateUser(ctx, &postgres.User{
@@ -65,11 +52,10 @@ func (u *Service) Register(ctx context.Context, req *Register) ([]byte, error) {
 		FullName:    req.FullName,
 		ForeignID:   req.ForeignID,
 		Password:    encryptedPassword,
-		OTPSecret:   secret,
 		ContactInfo: contactInfo,
 	})
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	for i := range contactInfo {
@@ -79,11 +65,11 @@ func (u *Service) Register(ctx context.Context, req *Register) ([]byte, error) {
 				log.Error().Str("function", "Register").Err(err).Msg("Failed to delete user")
 			}
 
-			return nil, err
+			return err
 		}
 	}
 
-	return image, nil
+	return nil
 }
 
 func (u *Service) Login(ctx context.Context, req *Login) (string, bool, error) {
@@ -111,17 +97,29 @@ func (u *Service) Login(ctx context.Context, req *Login) (string, bool, error) {
 	return token, false, err
 }
 
-func (u *Service) AddAlternativeNumber(ctx context.Context, req *ContactInfo, userID string) error {
-	phoneNumber := phonenumber.Parse(req.Phone, "")
-	if phoneNumber == "" {
-		return ErrInvalidPhone
+func (u *Service) AddAlternativeNumber(ctx context.Context, req *AddAlternativeNumber) error {
+	id, err := u.db.GetUserIDByForeignID(ctx, req.ForeignID)
+	if err != nil {
+		return err
 	}
 
-	return u.db.AddContactInfo(ctx, &postgres.ContactInfo{
-		UserID: userID,
-		Type:   req.Type,
-		Phone:  "+" + phoneNumber,
-	})
+	for _, info := range req.ContactInfo {
+		phoneNumber := phonenumber.Parse(info.Phone, "")
+		if phoneNumber == "" {
+			return ErrInvalidPhone
+		}
+
+		err := u.db.AddContactInfo(ctx, &postgres.ContactInfo{
+			UserID: id,
+			Type:   info.Type,
+			Phone:  "+" + phoneNumber,
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (u *Service) OTPCheck(ctx context.Context, req *TwoFA) (string, error) {

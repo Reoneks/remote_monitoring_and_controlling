@@ -20,7 +20,8 @@ type HTTPServer struct {
 	handlers *handlers.Handler
 	auth     *jwt.JWT
 
-	appAddr string
+	appAddr      string
+	permittedIPs []string
 }
 
 func NewHTTPServer(
@@ -29,9 +30,10 @@ func NewHTTPServer(
 	auth *jwt.JWT,
 ) *HTTPServer {
 	return &HTTPServer{
-		appAddr:  cfg.AppAddr,
-		handlers: handlers,
-		auth:     auth,
+		appAddr:      cfg.AppAddr,
+		permittedIPs: cfg.PermittedIPs,
+		handlers:     handlers,
+		auth:         auth,
 	}
 }
 
@@ -41,11 +43,15 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 
 	s.router.POST("/login", s.handlers.Login)
 	s.router.POST("/2fa", s.handlers.TwoFA)
-	s.router.POST("/register", s.handlers.Register)
 
+	// BAS (1C)
+	bas := s.router.Group("/internal", middleware.CheckIPMiddleware(s.permittedIPs))
+	bas.POST("/register", s.handlers.Register)
+	bas.POST("/add_phone", s.handlers.AddAlternativeNumber)
+
+	// User
 	private := s.router.Group("", middleware.AuthMiddleware(s.auth))
 	private.POST("/logout", s.handlers.Logout)
-	private.POST("/add_phone", s.handlers.AddAlternativeNumber)
 	private.PATCH("/enable_2fa", s.handlers.EnableTwoFA)
 	private.PATCH("/disable_2fa", s.handlers.DisableTwoFA)
 

@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"full_name\": \"User name\",\n    \"password\": \"password\",\n    \"department\": \"department\",\n    \"position\": \"position\",\n    \"foreign_id\": \"\",\n    \"otp_enabled\": false,\n    \"contact_info\": [\n        {\n            \"type\": \"Work\",\n            \"phone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
+							"raw": "{\n    \"FullName\": \"User name\",\n    \"Password\": \"password\",\n    \"Department\": \"department\",\n    \"Position\": \"position\",\n    \"UID\": \"\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"Work\",\n            \"Telephone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -27,13 +27,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:1140/register",
+							"raw": "http://localhost:1140/internal/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "1140",
 							"path": [
+								"internal",
 								"register"
 							]
 						}
@@ -110,7 +111,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+(38)095-358-69-49\",\n    \"password\": \"password\"\n}",
+							"raw": "{\n    \"Telephone\": \"+(38)095-358-69-49\",\n    \"Password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,7 +254,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"01GZF1MABE08AD3WGKSAT0VJ2R\",\n    \"password\": \"393020\"\n}",
+							"raw": "{\n    \"ID\": \"01GZF1MABE08AD3WGKSAT0VJ2R\",\n    \"Password\": \"393020\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -389,7 +390,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+(38)095-768-43-49\",\n    \"type\": \"test\"\n}",
+							"raw": "{\n    \"UID\": \"\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"test\",\n            \"Telephone\": \"+(38)095-768-43-49\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -397,13 +398,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:1140/add_phone",
+							"raw": "http://localhost:1140/internal/add_phone",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "1140",
 							"path": [
+								"internal",
 								"add_phone"
 							]
 						}

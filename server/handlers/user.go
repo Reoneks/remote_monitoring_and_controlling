@@ -20,14 +20,10 @@ func (h *Handler) Register(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
 	}
 
-	image, err := h.user.Register(ctx.Request().Context(), &req)
+	err := h.user.Register(ctx.Request().Context(), &req)
 	if err != nil {
 		log.Error().Str("function", "Register").Err(err).Msg("Failed to register user")
 		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrRegister)))
-	}
-
-	if len(image) > 0 {
-		return ctx.Blob(http.StatusOK, "image/png", image)
 	}
 
 	return ctx.NoContent(http.StatusOK)
@@ -59,22 +55,16 @@ func (h *Handler) Login(ctx echo.Context) error {
 }
 
 func (h *Handler) AddAlternativeNumber(ctx echo.Context) error {
-	var req user.ContactInfo
+	var req user.AddAlternativeNumber
 	if err := ctx.Bind(&req); err != nil {
 		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to bind alternative phone number")
 		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
 	}
 
-	userID, ok := ctx.Get("userID").(string)
-	if !ok {
-		log.Error().Str("function", "AddAlternativeNumber").Msg("Failed to get userID")
-		return ctx.JSON(http.StatusBadRequest, newHTTPError(ErrBind))
-	}
-
-	err := h.user.AddAlternativeNumber(ctx.Request().Context(), &req, userID)
+	err := h.user.AddAlternativeNumber(ctx.Request().Context(), &req)
 	if err != nil {
 		log.Error().Str("function", "AddAlternativeNumber").Err(err).Msg("Failed to add alternative phone number")
-		return ctx.JSON(http.StatusInternalServerError, newHTTPError(ErrAddPhone))
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrAddPhone)))
 	}
 
 	return ctx.NoContent(http.StatusOK)

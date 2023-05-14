@@ -38,6 +38,14 @@ func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (User, erro
 		First(&result).Error
 }
 
+func (p *Postgres) GetUserIDByForeignID(ctx context.Context, foreignID string) (string, error) {
+	var result struct {
+		ID string
+	}
+
+	return result.ID, p.db.WithContext(ctx).Model(&User{}).Select("id").Where("foreign_id = ?", foreignID).First(&result).Error
+}
+
 func (p *Postgres) CreateUser(ctx context.Context, user *User) error {
 	return p.db.Model(user).WithContext(ctx).Create(user).Error
 }

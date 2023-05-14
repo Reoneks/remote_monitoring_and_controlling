@@ -19,6 +19,7 @@ require (
 	github.com/sethvargo/go-password v0.2.0
 	go.uber.org/fx v1.19.2
 	golang.org/x/crypto v0.8.0
+	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea
 	gorm.io/driver/postgres v1.5.0
 	gorm.io/gorm v1.25.0
 )

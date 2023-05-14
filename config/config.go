@@ -13,8 +13,9 @@ type Config struct {
 }
 
 type AppConfig struct {
-	AppAddr         string `envconfig:"APP_SERVER_ADDRESS"`
-	JWTSecret string `envconfig:"JWT_SECRET" required:"true"`
+	AppAddr      string   `envconfig:"APP_SERVER_ADDRESS"`
+	JWTSecret    string   `envconfig:"JWT_SECRET" required:"true"`
+	PermittedIPs []string `envconfig:"PERMITTED_IPS"`
 }
 
 type PostgresConfig struct {

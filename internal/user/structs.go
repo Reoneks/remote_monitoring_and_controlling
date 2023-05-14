@@ -1,35 +1,32 @@
 package user
 
-type User struct {
-	FullName    string        `json:"full_name"`
-	Department  string        `json:"department"`
-	Position    string        `json:"position"`
-	ContactInfo []ContactInfo `json:"contact_info"`
+type Register struct {
+	FullName    string        `json:"FullName" validate:"required"`
+	Password    string        `json:"Password" validate:"required"`
+	Department  string        `json:"Department"`
+	Position    string        `json:"Position"`
+	ForeignID   string        `json:"UID" validate:"required"`
+	ContactInfo []ContactInfo `json:"ContactInfo" validate:"dive"`
 }
 
-type Register struct {
-	FullName    string        `json:"full_name" validate:"required"`
-	Password    string        `json:"password" validate:"required"`
-	Department  string        `json:"department"`
-	Position    string        `json:"position"`
-	ForeignID   string        `json:"foreign_id"`
-	OTPEnabled  bool          `json:"otp_enabled"`
-	ContactInfo []ContactInfo `json:"contact_info" validate:"dive"`
+type AddAlternativeNumber struct {
+	ForeignID   string        `json:"UID" validate:"required"`
+	ContactInfo []ContactInfo `json:"ContactInfo" validate:"dive"`
 }
 
 type ContactInfo struct {
-	Type  string `json:"type" validate:"required"`
-	Phone string `json:"phone" validate:"required"`
+	Type  string `json:"Type"`
+	Phone string `json:"Telephone" validate:"required"`
 }
 
 type Login struct {
-	Phone    string `json:"phone" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Phone    string `json:"Telephone" validate:"required"`
+	Password string `json:"Password" validate:"required"`
 }
 
 type TwoFA struct {
-	ID          string `json:"id" validate:"required"`
-	OTPPassword string `json:"password" validate:"required"`
+	ID          string `json:"ID" validate:"required"`
+	OTPPassword string `json:"Password" validate:"required"`
 }
 
 type OTPData struct {
