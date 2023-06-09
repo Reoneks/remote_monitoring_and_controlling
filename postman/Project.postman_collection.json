@@ -10,6 +10,67 @@
 			"name": "Auth",
 			"item": [
 				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1140/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Jun 2023 17:28:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "135"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"FullName\": \"User name\",\n        \"Department\": \"department\",\n        \"Position\": \"position\",\n        \"ContactInfo\": [\n            {\n                \"Type\": \"Work\",\n                \"Telephone\": \"+380953586949\"\n            }\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
 					"name": "Register",
 					"request": {
 						"auth": {
@@ -19,7 +80,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"FullName\": \"User name\",\n    \"Password\": \"password\",\n    \"Department\": \"department\",\n    \"Position\": \"position\",\n    \"UID\": \"\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"Work\",\n            \"Telephone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
+							"raw": "{\n    \"UID\": \"803b585c-ad50-456c-a727-f872695f332a\",\n    \"FullName\": \"User name\",\n    \"Password\": \"password\",\n    \"Department\": \"department\",\n    \"Position\": \"position\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"Work\",\n            \"Telephone\": \"+(38)095-358-69-49\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -390,7 +451,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UID\": \"\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"test\",\n            \"Telephone\": \"+(38)095-768-43-49\"\n        }\n    ]\n}",
+							"raw": "{\n    \"UID\": \"803b585c-ad50-456c-a727-f872695f332a\",\n    \"ContactInfo\": [\n        {\n            \"Type\": \"test\",\n            \"Telephone\": \"+(38)095-768-43-49\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -534,6 +595,87 @@
 							"body": null
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1140/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Subject\": \"subject\",\n    \"Text\": \"text\",\n    \"User\": \"user_id\",\n    \"Appointed\": \"another_user_id\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1140/internal/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"internal",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task Status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ID\": \"task_id\",\n    \"Status\": \"task_new_status\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1140/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
