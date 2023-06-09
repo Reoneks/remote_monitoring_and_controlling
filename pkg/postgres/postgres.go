@@ -21,6 +21,17 @@ type Postgres struct {
 	cfg *config.PostgresConfig
 }
 
+func (p *Postgres) GetUsers(ctx context.Context) ([]User, error) {
+	var result []User
+	return result, p.db.WithContext(ctx).Model(&User{}).Preload("ContactInfo").
+		Select([]string{
+			"users.id",
+			"users.department",
+			"users.position",
+			"users.full_name",
+		}).Find(&result).Error
+}
+
 func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (User, error) {
 	var result User
 	return result, p.db.WithContext(ctx).Model(&User{}).
@@ -29,21 +40,12 @@ func (p *Postgres) GetUserByPhone(ctx context.Context, phone string) (User, erro
 			"users.department",
 			"users.position",
 			"users.full_name",
-			"users.foreign_id",
 			"users.password",
 			"users.otp_secret",
 		}).
 		Joins("INNER JOIN contact_info ON users.id = contact_info.user_id").
 		Where("contact_info.phone = ?", phone).
 		First(&result).Error
-}
-
-func (p *Postgres) GetUserIDByForeignID(ctx context.Context, foreignID string) (string, error) {
-	var result struct {
-		ID string
-	}
-
-	return result.ID, p.db.WithContext(ctx).Model(&User{}).Select("id").Where("foreign_id = ?", foreignID).First(&result).Error
 }
 
 func (p *Postgres) CreateUser(ctx context.Context, user *User) error {

@@ -8,6 +8,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+func (h *Handler) GetUsers(ctx echo.Context) error {
+	users, err := h.user.GetUsers(ctx.Request().Context())
+	if err != nil {
+		log.Error().Str("function", "GetUsers").Err(err).Msg("Failed to get users")
+		return ctx.JSON(http.StatusInternalServerError, newHTTPError(checkErr(err, ErrRegister)))
+	}
+
+	return ctx.JSON(http.StatusOK, users)
+}
+
 func (h *Handler) Register(ctx echo.Context) error {
 	var req user.Register
 	if err := ctx.Bind(&req); err != nil {

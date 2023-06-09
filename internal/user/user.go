@@ -24,8 +24,35 @@ type Service struct {
 	cache  *cache.Cache[OTPData]
 }
 
+func (u *Service) GetUsers(ctx context.Context) ([]User, error) {
+	users, err := u.db.GetUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	usersResp := make([]User, 0, len(users))
+	for _, user := range users {
+		contactInfoResp := make([]ContactInfo, 0, len(user.ContactInfo))
+		for _, contactInfo := range user.ContactInfo {
+			contactInfoResp = append(contactInfoResp, ContactInfo{
+				Type:  contactInfo.Type,
+				Phone: contactInfo.Phone,
+			})
+		}
+
+		usersResp = append(usersResp, User{
+			ID:          user.ID,
+			FullName:    user.FullName,
+			Department:  user.Department,
+			Position:    user.Position,
+			ContactInfo: contactInfoResp,
+		})
+	}
+
+	return usersResp, nil
+}
+
 func (u *Service) Register(ctx context.Context, req *Register) error {
-	id := ulid.Make().String()
 	contactInfo := make([]postgres.ContactInfo, 0, len(req.ContactInfo))
 	for _, info := range req.ContactInfo {
 		phoneNumber := phonenumber.Parse(info.Phone, "")
@@ -34,7 +61,7 @@ func (u *Service) Register(ctx context.Context, req *Register) error {
 		}
 
 		contactInfo = append(contactInfo, postgres.ContactInfo{
-			UserID: id,
+			UserID: req.ForeignID,
 			Type:   info.Type,
 			Phone:  "+" + phoneNumber,
 		})
@@ -46,11 +73,10 @@ func (u *Service) Register(ctx context.Context, req *Register) error {
 	}
 
 	err = u.db.CreateUser(ctx, &postgres.User{
-		ID:          id,
+		ID:          req.ForeignID,
 		Department:  req.Department,
 		Position:    req.Position,
 		FullName:    req.FullName,
-		ForeignID:   req.ForeignID,
 		Password:    encryptedPassword,
 		ContactInfo: contactInfo,
 	})
@@ -61,7 +87,7 @@ func (u *Service) Register(ctx context.Context, req *Register) error {
 	for i := range contactInfo {
 		err = u.db.AddContactInfo(ctx, &contactInfo[i])
 		if err != nil {
-			if err := u.db.DeleteUser(ctx, id); err != nil {
+			if err := u.db.DeleteUser(ctx, req.ForeignID); err != nil {
 				log.Error().Str("function", "Register").Err(err).Msg("Failed to delete user")
 			}
 
@@ -98,11 +124,6 @@ func (u *Service) Login(ctx context.Context, req *Login) (string, bool, error) {
 }
 
 func (u *Service) AddAlternativeNumber(ctx context.Context, req *AddAlternativeNumber) error {
-	id, err := u.db.GetUserIDByForeignID(ctx, req.ForeignID)
-	if err != nil {
-		return err
-	}
-
 	for _, info := range req.ContactInfo {
 		phoneNumber := phonenumber.Parse(info.Phone, "")
 		if phoneNumber == "" {
@@ -110,7 +131,7 @@ func (u *Service) AddAlternativeNumber(ctx context.Context, req *AddAlternativeN
 		}
 
 		err := u.db.AddContactInfo(ctx, &postgres.ContactInfo{
-			UserID: id,
+			UserID: req.ForeignID,
 			Type:   info.Type,
 			Phone:  "+" + phoneNumber,
 		})

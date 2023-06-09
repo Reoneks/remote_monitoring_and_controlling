@@ -6,8 +6,8 @@ import (
 )
 
 type DB interface {
+	GetUsers(ctx context.Context) ([]postgres.User, error)
 	GetUserByPhone(ctx context.Context, phone string) (postgres.User, error)
-	GetUserIDByForeignID(ctx context.Context, foreignID string) (string, error)
 	CreateUser(ctx context.Context, user *postgres.User) error
 	AddContactInfo(ctx context.Context, contactInfo *postgres.ContactInfo) error
 	EnableOTP(ctx context.Context, userID, secret string) error

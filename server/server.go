@@ -41,6 +41,7 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	s.router = echo.New()
 	s.router.Use(middleware.LoggerMiddleware(), middleware.CorsMiddleware(), middleware.RecoverMiddleware())
 
+	s.router.GET("/users", s.handlers.GetUsers)
 	s.router.POST("/login", s.handlers.Login)
 	s.router.POST("/2fa", s.handlers.TwoFA)
 

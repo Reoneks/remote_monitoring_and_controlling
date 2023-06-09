@@ -5,7 +5,6 @@ type User struct {
 	Department string
 	Position   string
 	FullName   string
-	ForeignID  string
 
 	Password  string
 	OTPSecret string
