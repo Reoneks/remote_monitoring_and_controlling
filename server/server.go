@@ -41,7 +41,6 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	s.router = echo.New()
 	s.router.Use(middleware.LoggerMiddleware(), middleware.CorsMiddleware(), middleware.RecoverMiddleware())
 
-	s.router.GET("/users", s.handlers.GetUsers)
 	s.router.POST("/login", s.handlers.Login)
 	s.router.POST("/2fa", s.handlers.TwoFA)
 
@@ -52,6 +51,7 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 
 	// User
 	private := s.router.Group("", middleware.AuthMiddleware(s.auth))
+	private.GET("/users", s.handlers.GetUsers)
 	private.POST("/logout", s.handlers.Logout)
 	private.PATCH("/enable_2fa", s.handlers.EnableTwoFA)
 	private.PATCH("/disable_2fa", s.handlers.DisableTwoFA)
