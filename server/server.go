@@ -48,11 +48,18 @@ func (s *HTTPServer) Start(ctx context.Context) error {
 	bas := s.router.Group("/internal", middleware.CheckIPMiddleware(s.permittedIPs))
 	bas.POST("/register", s.handlers.Register)
 	bas.POST("/add_phone", s.handlers.AddAlternativeNumber)
+	bas.POST("/tasks", s.handlers.SaveTasks)
+	bas.POST("/vacations", s.handlers.SaveVacations)
+	bas.POST("/payments", s.handlers.SavePayments)
 
 	// User
 	private := s.router.Group("", middleware.AuthMiddleware(s.auth))
 	private.GET("/users", s.handlers.GetUsers)
+	private.GET("/tasks", s.handlers.GetTasks)
+	private.GET("/vacations", s.handlers.GetVacations)
+	private.GET("/payments", s.handlers.GetPayments)
 	private.POST("/logout", s.handlers.Logout)
+	private.PUT("/task/status", s.handlers.UpdateTaskStatus)
 	private.PATCH("/enable_2fa", s.handlers.EnableTwoFA)
 	private.PATCH("/disable_2fa", s.handlers.DisableTwoFA)
 

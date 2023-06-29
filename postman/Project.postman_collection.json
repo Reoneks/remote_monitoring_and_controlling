@@ -172,7 +172,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Telephone\": \"+(38)095-358-69-49\",\n    \"Password\": \"password\"\n}",
+							"raw": "{\n    \"Telephone\": \"+380957684349\",\n    \"Password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -618,7 +618,171 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/tasks",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:27:10 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "532"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"ОbjectName\": \"Задача\",\n        \"TaskName\": \"Виконати задачу\",\n        \"Uid\": \"f685cc36-1362-11ee-829b-000c29f72ab5\",\n        \"Date\": \"2023-06-25T17:17:07\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"CreatorId\": \"1fcf3c39-1861-11e7-9afe-002590caf438\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-06-26T23:59:59\",\n        \"TaskInfo\": \"Зробити вигрузку задач в форматі JSON\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": [\n            \"test\",\n            \"test2\"\n        ],\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Vacations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1140/vacations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"vacations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/vacations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"vacations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:28:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "969"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"ОbjectName\": \"Согласование отпуска\",\n        \"TaskName\": \"Утвердить директором департамента\",\n        \"Uid\": \"4ba4c0d3-b10e-11ed-8235-002590caf439\",\n        \"Date\": \"2023-02-20T13:04:08\",\n        \"Author\": \"Чузов Вячеслав Владимирович\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": \"\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-02-20T16:04:08\",\n        \"TaskInfo\": \"Прошу предоставить дополнительный отпуск в сязи сднем рождения с 22.02.2023 по 23.02.2023 и Основной ежегодный отпуск на один день 24.02.2023г.\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"PeriodStart\": \"2023-07-01T00:00:00\",\n        \"PeriodEnd\": \"2023-07-10T00:00:00\",\n        \"HolidayMayker\": \"Чузов Вячеслав Владимирович\",\n        \"Substitutional\": \"Залюбовский Я.И.\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1140/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1140/payments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"payments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:28:19 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1238"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"ОbjectName\": \"Согласование счета на оплату поставщика\",\n        \"TaskName\": \"Проверить исполнителем по договору\",\n        \"Uid\": \"4d20f818-daa5-11ed-851d-002590caf439\",\n        \"Date\": \"2023-04-14T12:18:27\",\n        \"Author\": \"Залюбовский Ярослав Игоревич\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": \"Залюбовский Ярослав Игоревич\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-04-18T12:18:27\",\n        \"TaskInfo\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"В сязи с внеплановым переводом суши-острова (Металл) с ФЛП Гулак Д.И. на ФЛП Манойло В.В./ Состояние: Согласован дата: 18.04.2023 14:58:26 /\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"Kontragent\": \"Сухенко С.А., ФЛП\",\n        \"Organization\": \"ЧП Манойло Владимир Владимирович\",\n        \"Sum\": \"1200\",\n        \"PaymentDate\": \"14.04.2023 0:00:00\",\n        \"PaymentPurpose\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\"\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "Add Task",
@@ -627,7 +791,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Subject\": \"subject\",\n    \"Text\": \"text\",\n    \"User\": \"user_id\",\n    \"Appointed\": \"another_user_id\"\n}",
+							"raw": "[\n    {\n        \"ОbjectName\": \"Задача\",\n        \"TaskName\": \"Виконати задачу\",\n        \"Uid\": \"f685cc36-1362-11ee-829b-000c29f72ab5\",\n        \"Date\": \"2023-06-25T17:17:07\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"CreatorId\": \"1fcf3c39-1861-11e7-9afe-002590caf438\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-06-26T23:59:59\",\n        \"TaskInfo\": \"Зробити вигрузку задач в форматі JSON\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": [\n            \"test\",\n            \"test2\"\n        ],\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1\n    }\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -647,7 +811,209 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"ОbjectName\": \"Задача\",\n        \"TaskName\": \"Виконати задачу\",\n        \"Uid\": \"f685cc36-1362-11ee-829b-000c29f72ab5\",\n        \"Date\": \"2023-06-25T17:17:07\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"CreatorId\": \"1fcf3c39-1861-11e7-9afe-002590caf438\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-06-26T23:59:59\",\n        \"TaskInfo\": \"Зробити вигрузку задач в форматі JSON\",\n        \"AgreeStatys\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/internal/tasks",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"internal",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:08:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Add Vacations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"ОbjectName\": \"Согласование отпуска\",\n        \"TaskName\": \"Утвердить директором департамента\",\n        \"Uid\": \"4ba4c0d3-b10e-11ed-8235-002590caf439\",\n        \"Date\": \"2023-02-20T13:04:08\",\n        \"Author\": \"Чузов Вячеслав Владимирович\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": null,\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-02-20T16:04:08\",\n        \"TaskInfo\": \"Прошу предоставить дополнительный отпуск в сязи сднем рождения с 22.02.2023 по 23.02.2023 и Основной ежегодный отпуск на один день 24.02.2023г.\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"PeriodStart\": \"2023-07-01T00:00:00\",\n        \"PeriodEnd\": \"2023-07-10T00:00:00\",\n        \"HolidayMayker\": \"Чузов Вячеслав Владимирович\",\n        \"Substitutional\": \"Залюбовский Я.И.\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1140/internal/vacations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"internal",
+								"vacations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"ОbjectName\": \"Согласование отпуска\",\n        \"TaskName\": \"Утвердить директором департамента\",\n        \"Uid\": \"4ba4c0d3-b10e-11ed-8235-002590caf439\",\n        \"Date\": \"2023-02-20T13:04:08\",\n        \"Author\": \"Чузов Вячеслав Владимирович\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": null,\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-02-20T16:04:08\",\n        \"TaskInfo\": \"Прошу предоставить дополнительный отпуск в сязи сднем рождения с 22.02.2023 по 23.02.2023 и Основной ежегодный отпуск на один день 24.02.2023г.\",\n        \"AgreeStatus\": null,\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"PeriodStart\": \"2023-07-01T00:00:00\",\n        \"PeriodEnd\": \"2023-07-10T00:00:00\",\n        \"HolidayMayker\": \"Чузов Вячеслав Владимирович\",\n        \"Substitutional\": \"Залюбовский Я.И.\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/internal/vacations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"internal",
+										"vacations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:17:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Add Payments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"ОbjectName\": \"Согласование счета на оплату поставщика\",\n        \"TaskName\": \"Проверить исполнителем по договору\",\n        \"Uid\": \"4d20f818-daa5-11ed-851d-002590caf439\",\n        \"Date\": \"2023-04-14T12:18:27\",\n        \"Author\": \"Залюбовский Ярослав Игоревич\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": \"Залюбовский Ярослав Игоревич\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-04-18T12:18:27\",\n        \"TaskInfo\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\",\n        \"AgreeStatys\": \"\",\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"В сязи с внеплановым переводом суши-острова (Металл) с ФЛП Гулак Д.И. на ФЛП Манойло В.В./ Состояние: Согласован дата: 18.04.2023 14:58:26 /\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"Kontragent\": \"Сухенко С.А., ФЛП\",\n        \"Organization\": \"ЧП Манойло Владимир Владимирович\",\n        \"Sum\": \"1200\",\n        \"PaymentDate\": \"14.04.2023 0:00:00\",\n        \"PaymentPurpose\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1140/internal/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1140",
+							"path": [
+								"internal",
+								"payments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"ОbjectName\": \"Согласование счета на оплату поставщика\",\n        \"TaskName\": \"Проверить исполнителем по договору\",\n        \"Uid\": \"4d20f818-daa5-11ed-851d-002590caf439\",\n        \"Date\": \"2023-04-14T12:18:27\",\n        \"Author\": \"Залюбовский Ярослав Игоревич\",\n        \"AuthorId\": \"01GZKZPFX5EM76J16V55SE3FEC\",\n        \"EndUser\": \"Залюбовский Ярослав Игоревич\",\n        \"EndUserId\": \"803b585c-ad50-456c-a727-f872695f332a\",\n        \"DeadlineDate\": \"2023-04-18T12:18:27\",\n        \"TaskInfo\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\",\n        \"AgreeStatys\": \"\",\n        \"LinkedTaskId\": \"\",\n        \"ApprovalList\": null,\n        \"Comment\": \"В сязи с внеплановым переводом суши-острова (Металл) с ФЛП Гулак Д.И. на ФЛП Манойло В.В./ Состояние: Согласован дата: 18.04.2023 14:58:26 /\",\n        \"EnableDeadDateShift\": true,\n        \"LayoutType\": 1,\n        \"Kontragent\": \"Сухенко С.А., ФЛП\",\n        \"Organization\": \"ЧП Манойло Владимир Владимирович\",\n        \"Sum\": \"1200\",\n        \"PaymentDate\": \"14.04.2023 0:00:00\",\n        \"PaymentPurpose\": \"Оплата ПРРО ВебЧек зг. р/ф №44663875 від 14 квітня 2023 р.\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/internal/payments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"internal",
+										"payments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:27:02 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Update Task Status",
@@ -656,7 +1022,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ID\": \"task_id\",\n    \"Status\": \"task_new_status\"\n}",
+							"raw": "{\n    \"Uid\": \"4ba4c0d3-b10e-11ed-8235-002590caf439\",\n    \"AgreeStatus\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -664,18 +1030,67 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:1140/tasks",
+							"raw": "http://localhost:1140/task/status",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "1140",
 							"path": [
-								"tasks"
+								"task",
+								"status"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Uid\": \"4ba4c0d3-b10e-11ed-8235-002590caf439\",\n    \"AgreeStatus\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1140/task/status",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1140",
+									"path": [
+										"task",
+										"status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 Jun 2023 20:31:23 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			]
 		}

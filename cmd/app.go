@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"remote_monitoring_and_controlling/config"
+	"remote_monitoring_and_controlling/internal/tasks"
 	"remote_monitoring_and_controlling/internal/user"
 	"remote_monitoring_and_controlling/pkg/bcrypt"
 	"remote_monitoring_and_controlling/pkg/jwt"
@@ -10,6 +11,7 @@ import (
 	"remote_monitoring_and_controlling/server"
 	"remote_monitoring_and_controlling/server/handlers"
 
+	"github.com/go-resty/resty/v2"
 	"go.uber.org/fx"
 )
 
@@ -17,6 +19,7 @@ func Exec() fx.Option {
 	return fx.Options(
 		fx.Provide(
 			config.Get,
+			resty.New,
 			bcrypt.NewBcrypt,
 			otp.NewOTP,
 
@@ -24,10 +27,12 @@ func Exec() fx.Option {
 			fx.Annotate(
 				annotationDupl[postgres.Postgres],
 				fx.As(new(user.DB)),
+				fx.As(new(tasks.DB)),
 			),
 
 			jwt.NewJWT,
 			user.NewUserService,
+			tasks.NewTasksService,
 			handlers.NewHandler,
 			server.NewHTTPServer,
 		),

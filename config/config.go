@@ -13,7 +13,8 @@ type Config struct {
 }
 
 type AppConfig struct {
-	AppAddr      string   `envconfig:"APP_SERVER_ADDRESS"`
+	AppAddr      string   `envconfig:"APP_SERVER_ADDRESS" required:"true"`
+	BASAddr      string   `envconfig:"BAS_SERVER_ADDRESS" required:"true"`
 	JWTSecret    string   `envconfig:"JWT_SECRET" required:"true"`
 	PermittedIPs []string `envconfig:"PERMITTED_IPS"`
 }

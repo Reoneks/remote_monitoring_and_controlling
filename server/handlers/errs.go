@@ -7,10 +7,17 @@ import (
 )
 
 var (
-	ErrBind     = errors.New("Invalid data")
-	ErrLogin    = errors.New("Failed to login")
-	ErrRegister = errors.New("Failed to register user")
-	ErrAddPhone = errors.New("Failed to add alternative phone number")
+	ErrBind             = errors.New("Invalid data")
+	ErrLogin            = errors.New("Failed to login")
+	ErrRegister         = errors.New("Failed to register user")
+	ErrAddPhone         = errors.New("Failed to add alternative phone number")
+	ErrGetTasks         = errors.New("Failed to get tasks")
+	ErrGetVacations     = errors.New("Failed to get vacations")
+	ErrGetPayments      = errors.New("Failed to get payments")
+	ErrSaveTasks        = errors.New("Failed to save tasks")
+	ErrSaveVacations    = errors.New("Failed to save vacations")
+	ErrSavePayments     = errors.New("Failed to save payments")
+	ErrUpdateTaskStatus = errors.New("Failed to update task status")
 )
 
 func newHTTPError(err error) map[string]any {
